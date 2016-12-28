@@ -23,7 +23,7 @@ var nugetSource = "https://www.nuget.org/api/v2/package";
 var coverageAssemblies = new[] { "ArgsReading" };
 
 var rootPath = MakeAbsolute(Directory(".")).FullPath;
-var gitRepository = LibGit2Sharp.Repository.IsValid(rootPath) ? new LibGit2Sharp.Repository() : null;
+var gitRepository = LibGit2Sharp.Repository.IsValid(rootPath) ? new LibGit2Sharp.Repository(rootPath) : null;
 
 var githubClient = new Octokit.GitHubClient(new Octokit.ProductHeaderValue("build.cake"));
 if (!string.IsNullOrEmpty(githubApiKey))
