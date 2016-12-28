@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>ArgsReading</id>
+    <version>$version$</version>
+    <authors>Ed Ball</authors>
+    <owners>Ed Ball</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A simple library for reading command-line arguments.</description>
+    <copyright>Copyright 2017 Ed Ball</copyright>
+    <projectUrl>https://github.com/Faithlife/ArgsReading</projectUrl>
+    <licenseUrl>https://raw.githubusercontent.com/Faithlife/ArgsReading/master/COPYING</licenseUrl>
+    <dependencies>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="ArgsReading\bin\Release\ArgsReading.*" target="lib/dotnet" />
+    <file src="ArgsReading\bin\Release\ArgsReading.*" target="lib/portable-net45+netcore45+wpa81" />
+  </files>
+</package>

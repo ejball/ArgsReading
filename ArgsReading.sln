@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgsReading", "src\ArgsReading\ArgsReading.csproj", "{C17F0CF1-323F-4A55-B8E7-9E388B59AF91}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "root", "root", "{68EEB72A-6D49-4B06-87C1-B54D028F897F}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		appveyor.yml = appveyor.yml
+		build.cake = build.cake
+		build.ps1 = build.ps1
+		COPYING = COPYING
+		README.md = README.md
+		SolutionInfo.cs = SolutionInfo.cs
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgsReading.Tests", "tests\ArgsReading.Tests\ArgsReading.Tests.csproj", "{AFA26C4F-6D1F-4CA3-8DCE-D2818B34AE74}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C17F0CF1-323F-4A55-B8E7-9E388B59AF91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C17F0CF1-323F-4A55-B8E7-9E388B59AF91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C17F0CF1-323F-4A55-B8E7-9E388B59AF91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C17F0CF1-323F-4A55-B8E7-9E388B59AF91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFA26C4F-6D1F-4CA3-8DCE-D2818B34AE74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFA26C4F-6D1F-4CA3-8DCE-D2818B34AE74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFA26C4F-6D1F-4CA3-8DCE-D2818B34AE74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFA26C4F-6D1F-4CA3-8DCE-D2818B34AE74}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
