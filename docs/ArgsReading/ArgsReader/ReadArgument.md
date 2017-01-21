@@ -1,4 +1,4 @@
-## ReadArgument method
+# ReadArgument method
 
 Reads the next non-option argument, or null if none remain.
 

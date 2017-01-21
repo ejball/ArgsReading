@@ -1,8 +1,8 @@
-## ArgsReading assembly
+# ArgsReading assembly
 
 The assembly `ArgsReading.dll` has 2 public types in 1 namespace.
 
-### ArgsReading namespace
+## ArgsReading namespace
 
 | public type | description |
 | --- | --- |

@@ -1,4 +1,4 @@
-## VerifyComplete method
+# VerifyComplete method
 
 Confirms that all arguments were processed.
 

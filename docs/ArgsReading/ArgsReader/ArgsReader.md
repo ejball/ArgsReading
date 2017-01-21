@@ -1,4 +1,4 @@
-## ArgsReader constructor
+# ArgsReader constructor
 
 Creates a reader for the specified command-line arguments.
 

@@ -1,4 +1,4 @@
-## ArgsReaderException class
+# ArgsReaderException class
 
 Thrown when an error occurs while processing command-line arguments.
 
@@ -6,7 +6,7 @@ Thrown when an error occurs while processing command-line arguments.
 public sealed class ArgsReaderException : Exception
 ```
 
-#### Public Members
+## Public Members
 
 | name | description |
 | --- | --- |

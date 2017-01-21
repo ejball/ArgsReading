@@ -1,4 +1,4 @@
-## ReadOption method
+# ReadOption method
 
 Reads the specified option, returning null if it is missing.
 

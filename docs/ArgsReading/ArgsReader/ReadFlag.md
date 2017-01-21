@@ -1,4 +1,4 @@
-## ReadFlag method
+# ReadFlag method
 
 Reads the specified flag, returning true if it is found.
 

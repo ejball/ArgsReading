@@ -1,4 +1,4 @@
-## ArgsReaderException constructor
+# ArgsReaderException constructor
 
 Creates an exception.
 

@@ -1,4 +1,4 @@
-## ArgsReader class
+# ArgsReader class
 
 Helps process command-line arguments.
 
@@ -6,7 +6,7 @@ Helps process command-line arguments.
 public sealed class ArgsReader
 ```
 
-#### Public Members
+## Public Members
 
 | name | description |
 | --- | --- |
