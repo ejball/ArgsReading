@@ -3,7 +3,6 @@ body {
 }
 
 .page-container {
-  margin-top: 21px;
   margin-bottom: 21px;
 }
 
@@ -11,7 +10,12 @@ body {
   padding-left: 45px;
 }
 
-h1, .h1, h2, .h2, h3, .h3 {
+h1, .h1 {
+  margin-top: 0;
+  padding-top: 42px;
+}
+
+h2, .h2, h3, .h3 {
   margin-top: 0;
   padding-top: 21px;
 }
@@ -19,6 +23,34 @@ h1, .h1, h2, .h2, h3, .h3 {
 h4, .h4, h5, .h5, h6, .h6 {
   margin-top: 14px;
   margin-bottom: 7px;
+}
+
+a.anchorjs-link:active, a.anchorjs-link:hover {
+  text-decoration: none;
+}
+
+nav.affix[data-toggle='toc'] {
+  margin-top: -60px;
+}
+
+#toc {
+  width: 190px;
+}
+
+@media (max-width: 767px) {
+  #toc {
+    display: none;
+  }
+}
+
+@media (max-width: 479px) {
+  .content-column {
+    padding-left: 15px;
+  }
+
+  .anchorjs-link {
+    display: none;
+  }
 }
 
 /* apply .table, .table-striped, and .table-hover from Flatly to all tables */
@@ -70,4 +102,9 @@ table > tbody > tr:nth-of-type(odd) {
 }
 table > tbody > tr:hover {
   background-color: #ecf0f1;
+}
+
+/* undo underlined links in tables */
+table a:not(.btn), .table a:not(.btn) {
+    text-decoration: none;
 }
