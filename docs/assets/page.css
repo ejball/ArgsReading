@@ -2,7 +2,20 @@ body {
   font-variant: none;
 }
 
+.navbar-static-top {
+  margin-bottom: 0;
+}
+
+.large {
+  font-size: 125%;
+}
+
+.github-logo {
+  height: 24px;
+}
+
 .page-container {
+  margin-top: 21px;
   margin-bottom: 21px;
 }
 
@@ -10,12 +23,7 @@ body {
   padding-left: 45px;
 }
 
-h1, .h1 {
-  margin-top: 0;
-  padding-top: 42px;
-}
-
-h2, .h2, h3, .h3 {
+h1, .h1, h2, .h2, h3, .h3 {
   margin-top: 0;
   padding-top: 21px;
 }
