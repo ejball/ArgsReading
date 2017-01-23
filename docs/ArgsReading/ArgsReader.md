@@ -11,10 +11,14 @@ public sealed class ArgsReader
 | name | description |
 | --- | --- |
 | [ArgsReader](ArgsReader/ArgsReader.md)(…) | Creates a reader for the specified command-line arguments. |
-| [ReadArgument](ArgsReader/ReadArgument.md)() | Reads the next non-option argument, or null if none remain. |
+| [ReadArgument](ArgsReader/ReadArgument.md)() | Reads the next non-option argument. |
 | [ReadFlag](ArgsReader/ReadFlag.md)(…) | Reads the specified flag, returning true if it is found. |
-| [ReadOption](ArgsReader/ReadOption.md)(…) | Reads the specified option, returning null if it is missing. |
+| [ReadOption](ArgsReader/ReadOption.md)(…) | Reads the value of the specified option, if any. |
 | [VerifyComplete](ArgsReader/VerifyComplete.md)() | Confirms that all arguments were processed. |
+
+## Remarks
+
+To use this class, construct an `ArgsReader` with the command-line arguments from `Main`, read the supported options one at a time with [`ReadFlag`](ArgsReader/ReadFlag.md) and [`ReadOption`](ArgsReader/ReadOption.md), read any normal arguments with [`ReadArgument`](ArgsReader/ReadArgument.md), and finally call [`VerifyComplete`](ArgsReader/VerifyComplete.md), which throws an [`ArgsReaderException`](ArgsReaderException.md) if any unsupported options or arguments haven't been read.
 
 (from namespace [ArgsReading](../ArgsReading.md))
 

@@ -1,10 +1,18 @@
 # ReadArgument method
 
-Reads the next non-option argument, or null if none remain.
+Reads the next non-option argument.
 
 ```csharp
 public string ReadArgument()
 ```
+
+## Return Value
+
+The next non-option argument, or null if none remain.
+
+## Remarks
+
+If the next argument is an option, this method throws an exception. If options can appear before normal arguments, be sure to read all options before reading any normal arguments.
 
 (from class [ArgsReader](../ArgsReader.md) of namespace [ArgsReading](../../ArgsReading.md))
 

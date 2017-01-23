@@ -1,10 +1,26 @@
 # ReadOption method
 
-Reads the specified option, returning null if it is missing.
+Reads the value of the specified option, if any.
 
 ```csharp
 public string ReadOption(string name)
 ```
+
+| parameter | description |
+| --- | --- |
+| `name` | The name of the specified option. |
+
+## Return Value
+
+The specified option if it was found on the command line; `null` otherwise.
+
+## Remarks
+
+If the option is found, the method returns the command-line argument after the option and both arguments are removed. If `ReadOption` is called with the same name, it will return `null`, unless the same option appears twice on the command line.
+
+To support multiple names for the same option, use a `|` to separate them, e.g. use `n|name` to support two different names for a module option.
+
+Single-character names use a single hyphen, e.g. `-n example`. Longer names use a double hyphen, e.g. `--name example`.
 
 (from class [ArgsReader](../ArgsReader.md) of namespace [ArgsReading](../../ArgsReading.md))
 
