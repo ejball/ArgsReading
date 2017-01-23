@@ -14,6 +14,13 @@ public bool ReadFlag(string name)
 
 True if the specified flag was found on the command line.
 
+## Exceptions
+
+| exception | condition |
+| --- | --- |
+| ArgumentNullException | `name` is `null`. |
+| ArgumentException | One of the names is empty. |
+
 ## Remarks
 
 If the flag is found, the method returns `true` and the flag is removed. If `ReadFlag` is called with the same name, it will return `false`, unless the same flag appears twice on the command line.

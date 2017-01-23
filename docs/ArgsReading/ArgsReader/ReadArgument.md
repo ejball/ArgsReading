@@ -10,6 +10,12 @@ public string ReadArgument()
 
 The next non-option argument, or null if none remain.
 
+## Exceptions
+
+| exception | condition |
+| --- | --- |
+| [ArgsReaderException](../ArgsReaderException.md) | The next argument is an option. |
+
 ## Remarks
 
 If the next argument is an option, this method throws an exception. If options can appear before normal arguments, be sure to read all options before reading any normal arguments.

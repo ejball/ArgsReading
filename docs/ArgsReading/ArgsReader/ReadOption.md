@@ -14,6 +14,14 @@ public string ReadOption(string name)
 
 The specified option if it was found on the command line; `null` otherwise.
 
+## Exceptions
+
+| exception | condition |
+| --- | --- |
+| ArgumentNullException | `name` is `null`. |
+| ArgumentException | One of the names is empty. |
+| [ArgsReaderException](../ArgsReaderException.md) | The argument that must follow the option is missing. |
+
 ## Remarks
 
 If the option is found, the method returns the command-line argument after the option and both arguments are removed. If `ReadOption` is called with the same name, it will return `null`, unless the same option appears twice on the command line.
