@@ -52,6 +52,7 @@ pre {
 code {
   color: inherit;
   background-color: inherit;
+  padding: 0 1px;
 }
 
 @media (max-width: 767px) {
