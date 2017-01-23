@@ -5,6 +5,7 @@
 #tool "nuget:https://www.nuget.org/api/v2/?package=PdbGit&version=3.0.32"
 #tool "nuget:https://www.nuget.org/api/v2/?package=OpenCover&version=4.6.519"
 #tool "nuget:https://www.nuget.org/api/v2/?package=ReportGenerator&version=2.5.0"
+#tool "nuget:https://www.nuget.org/api/v2/?package=XmlDocMarkdown&version=0.1.1"
 
 using LibGit2Sharp;
 
@@ -32,15 +33,6 @@ if (!string.IsNullOrEmpty(githubApiKey))
 string headSha = null;
 string version = null;
 
-string GetSemVerFromFile(string path)
-{
-	var versionInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(path);
-	var semver = $"{versionInfo.FileMajorPart}.{versionInfo.FileMinorPart}.{versionInfo.FileBuildPart}";
-	if (prerelease.Length != 0)
-		semver += $"-{prerelease}";
-	return semver;
-}
-
 Task("Clean")
 	.Does(() =>
 	{
@@ -59,8 +51,16 @@ Task("Build")
 		MSBuild(solutionFileName, settings => settings.SetConfiguration(configuration));
 	});
 
-Task("Test")
+Task("GenerateDocs")
 	.IsDependentOn("Build")
+	.Does(() => GenerateDocs(verify: false));
+
+Task("VerifyGenerateDocs")
+	.IsDependentOn("Build")
+	.Does(() => GenerateDocs(verify: true));
+
+Task("Test")
+	.IsDependentOn("VerifyGenerateDocs")
 	.Does(() => NUnit3($"tests/**/bin/**/*.Tests.dll", new NUnit3Settings { NoResults = true }));
 
 Task("SourceIndex")
@@ -101,7 +101,7 @@ Task("NuGetPackage")
 	{
 		CreateDirectory("release");
 
-		foreach (var nuspecPath in GetFiles($"src/*.nuspec"))
+		foreach (var nuspecPath in GetFiles($"src/**/*.nuspec"))
 		{
 			NuGetPack(nuspecPath, new NuGetPackSettings
 			{
@@ -171,6 +171,28 @@ Task("CoveragePublish")
 
 Task("Default")
 	.IsDependentOn("Test");
+
+string GetSemVerFromFile(string path)
+{
+	var versionInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(path);
+	var semver = $"{versionInfo.FileMajorPart}.{versionInfo.FileMinorPart}.{versionInfo.FileBuildPart}";
+	if (prerelease.Length != 0)
+		semver += $"-{prerelease}";
+	return semver;
+}
+
+void GenerateDocs(bool verify)
+{
+	if (!verify)
+		CleanDirectories("docs/ArgsReading");
+
+	int exitCode = StartProcess($@"cake\XmlDocMarkdown\tools\XmlDocMarkdown.exe",
+		$@"src\ArgsReading\bin\{configuration}\ArgsReading.dll docs\" + (verify ? " --verify" : ""));
+	if (exitCode == 1 && verify)
+		throw new InvalidOperationException("Generated docs don't match; use -target=GenerateDocs to regenerate.");
+	else if (exitCode != 0)
+		throw new InvalidOperationException($"Docs generation failed with exit code {exitCode}.");
+}
 
 void ExecuteProcess(string exePath, string arguments)
 {

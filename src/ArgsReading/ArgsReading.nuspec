@@ -7,14 +7,14 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A simple library for reading command-line arguments.</description>
     <copyright>Copyright 2017 Ed Ball</copyright>
-    <projectUrl>https://github.com/ejball/ArgsReading</projectUrl>
+    <projectUrl>http://ejball.com/ArgsReading/</projectUrl>
     <licenseUrl>https://raw.githubusercontent.com/ejball/ArgsReading/master/LICENSE</licenseUrl>
     <tags>command-line command line console shell argument option parser</tags>
     <dependencies>
     </dependencies>
   </metadata>
   <files>
-    <file src="ArgsReading\bin\Release\ArgsReading.*" target="lib/dotnet" />
-    <file src="ArgsReading\bin\Release\ArgsReading.*" target="lib/portable-net45+netcore45+wpa81" />
+    <file src="bin\Release\ArgsReading.*" target="lib/dotnet" />
+    <file src="bin\Release\ArgsReading.*" target="lib/portable-net45+netcore45+wpa81" />
   </files>
 </package>
