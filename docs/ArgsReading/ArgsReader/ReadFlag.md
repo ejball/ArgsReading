@@ -8,7 +8,7 @@ public bool ReadFlag(string name)
 
 | parameter | description |
 | --- | --- |
-| `name` | The name of the specified flag. |
+| name | The name of the specified flag. |
 
 ## Return Value
 

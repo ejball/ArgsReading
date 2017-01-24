@@ -8,7 +8,7 @@ public ArgsReader(IEnumerable<string> args)
 
 | parameter | description |
 | --- | --- |
-| `args` | The command-line arguments from `Main`. |
+| args | The command-line arguments from `Main`. |
 
 (from class [ArgsReader](../ArgsReader.md) of namespace [ArgsReading](../../ArgsReading.md))
 

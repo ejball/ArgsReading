@@ -8,7 +8,7 @@ public string ReadOption(string name)
 
 | parameter | description |
 | --- | --- |
-| `name` | The name of the specified option. |
+| name | The name of the specified option. |
 
 ## Return Value
 

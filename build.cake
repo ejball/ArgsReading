@@ -5,7 +5,7 @@
 #tool "nuget:https://www.nuget.org/api/v2/?package=PdbGit&version=3.0.32"
 #tool "nuget:https://www.nuget.org/api/v2/?package=OpenCover&version=4.6.519"
 #tool "nuget:https://www.nuget.org/api/v2/?package=ReportGenerator&version=2.5.0"
-#tool "nuget:https://www.nuget.org/api/v2/?package=XmlDocMarkdown&version=0.2.0"
+#tool "nuget:https://www.nuget.org/api/v2/?package=XmlDocMarkdown&version=0.2.1"
 
 using LibGit2Sharp;
 

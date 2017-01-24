@@ -8,8 +8,8 @@ public ArgsReaderException(string message, Exception innerException = null)
 
 | parameter | description |
 | --- | --- |
-| `message` | The exception message. |
-| `innerException` | The inner exception. |
+| message | The exception message. |
+| innerException | The inner exception. |
 
 (from class [ArgsReaderException](../ArgsReaderException.md) of namespace [ArgsReading](../../ArgsReading.md))
 
