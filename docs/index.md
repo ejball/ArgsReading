@@ -14,6 +14,6 @@ Install **ArgsReading** from its [NuGet package](https://www.nuget.org/packages/
 
 It does not support registering a list of options, data type conversion, binding options to the properties of a class, documenting options, or displaying usage. If you want those features, use a competing library such as [Command Line Parser Library](https://www.nuget.org/packages/commandlineparser).
 
-To use this library, construct an [ArgsReader](ArgsReading/ArgsReader/ArgsReader) with the command-line arguments, read the supported options one at a time with [ReadFlag](ArgsReading/ArgsReader/ReadFlag) and [ReadOption](ArgsReading/ArgsReader/ReadOption), read any normal arguments with [ReadArgument](ArgsReading/ArgsReader/ReadArgument), and finally call [VerifyComplete](ArgsReading/ArgsReader/VerifyComplete), which throws an [ArgsReaderException](ArgsReading/ArgsReaderException) if any unsupported options or arguments haven't been read.
+To use this library, construct an [ArgsReader](ArgsReading/ArgsReader/ArgsReader.md) with the command-line arguments, read the supported options one at a time with [ReadFlag](ArgsReading/ArgsReader/ReadFlag.md) and [ReadOption](ArgsReading/ArgsReader/ReadOption.md), read any normal arguments with [ReadArgument](ArgsReading/ArgsReader/ReadArgument.md), and finally call [VerifyComplete](ArgsReading/ArgsReader/VerifyComplete.md), which throws an [ArgsReaderException](ArgsReading/ArgsReaderException.md) if any unsupported options or arguments haven't been read.
 
-See also the [reference documentation](ArgsReading).
+For more information, consult the [reference documentation](ArgsReading.md).
