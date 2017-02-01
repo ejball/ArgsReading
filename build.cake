@@ -1,11 +1,11 @@
-#addin "nuget:https://www.nuget.org/api/v2/?package=Cake.Git&version=0.10.0"
-#addin "nuget:https://www.nuget.org/api/v2/?package=Octokit&version=0.23.0"
-#tool "nuget:https://www.nuget.org/api/v2/?package=coveralls.io&version=1.3.4"
-#tool "nuget:https://www.nuget.org/api/v2/?package=NUnit.ConsoleRunner&version=3.5.0"
-#tool "nuget:https://www.nuget.org/api/v2/?package=PdbGit&version=3.0.32"
-#tool "nuget:https://www.nuget.org/api/v2/?package=OpenCover&version=4.6.519"
-#tool "nuget:https://www.nuget.org/api/v2/?package=ReportGenerator&version=2.5.0"
-#tool "nuget:https://www.nuget.org/api/v2/?package=XmlDocMarkdown&version=0.2.4"
+#addin "nuget:?package=Cake.Git&version=0.10.0"
+#addin "nuget:?package=Octokit&version=0.23.0"
+#tool "nuget:?package=coveralls.io&version=1.3.4"
+#tool "nuget:?package=NUnit.ConsoleRunner&version=3.5.0"
+#tool "nuget:?package=PdbGit&version=3.0.32"
+#tool "nuget:?package=OpenCover&version=4.6.519"
+#tool "nuget:?package=ReportGenerator&version=2.5.0"
+#tool "nuget:?package=XmlDocMarkdown&version=0.2.6"
 
 using LibGit2Sharp;
 
@@ -187,7 +187,7 @@ void GenerateDocs(bool verify)
 		CleanDirectories("docs/ArgsReading");
 
 	int exitCode = StartProcess($@"cake\XmlDocMarkdown\tools\XmlDocMarkdown.exe",
-		$@"src\ArgsReading\bin\{configuration}\ArgsReading.dll docs\" + (verify ? " --verify" : ""));
+		$@"src\ArgsReading\bin\{configuration}\ArgsReading.dll docs\ --source ""https://github.com/ejball/ArgsReading/tree/master/src/ArgsReading"" --namespace ArgsReading" + (verify ? " --verify" : ""));
 	if (exitCode == 1 && verify)
 		throw new InvalidOperationException("Generated docs don't match; use -target=GenerateDocs to regenerate.");
 	else if (exitCode != 0)
