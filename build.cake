@@ -71,7 +71,7 @@ Task("NuGetPackage")
 
 Task("NuGetPublish")
 	.IsDependentOn("NuGetPackage")
-	.WithCriteria(() => !string.IsNullOrEmpty(nugetApiKey)) // && !string.IsNullOrEmpty(githubApiKey))
+	.WithCriteria(() => !string.IsNullOrEmpty(nugetApiKey) && !string.IsNullOrEmpty(githubApiKey))
 	.Does(() =>
 	{
 		var dirtyEntry = gitRepository.RetrieveStatus().FirstOrDefault(x => x.State != FileStatus.Unaltered && x.State != FileStatus.Ignored);
