@@ -12,7 +12,7 @@ var nugetApiKey = Argument("nugetApiKey", "");
 var githubApiKey = Argument("githubApiKey", "");
 
 var solutionFileName = "ArgsReading.sln";
-var nugetSource = "https://www.nuget.org/api/v2/package";
+var nugetSource = "https://api.nuget.org/v3/index.json";
 var githubOwner = "ejball";
 var githubRepo = "ArgsReading";
 var docsAssembly = $@"src\ArgsReading\bin\{configuration}\netstandard1.1\ArgsReading.dll";
