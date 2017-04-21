@@ -1,6 +1,5 @@
 #addin "nuget:?package=Cake.Git&version=0.14.0"
 #addin "nuget:?package=Octokit&version=0.24.0"
-#tool "nuget:?package=coveralls.io&version=1.3.4"
 #tool "nuget:?package=XmlDocMarkdown&version=0.4.1"
 #tool "nuget:?package=xunit.runner.console&version=2.2.0"
 
@@ -16,7 +15,6 @@ var solutionFileName = "ArgsReading.sln";
 var nugetSource = "https://www.nuget.org/api/v2/package";
 var githubOwner = "ejball";
 var githubRepo = "ArgsReading";
-var githubRawUri = "http://raw.githubusercontent.com";
 var docsAssembly = $@"src\ArgsReading\bin\{configuration}\netstandard1.1\ArgsReading.dll";
 var docsSourceUri = "https://github.com/ejball/ArgsReading/tree/master/src/ArgsReading";
 
