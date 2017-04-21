@@ -1,148 +1,155 @@
 ﻿using System;
-using NUnit.Framework;
-using Shouldly;
+using FluentAssertions;
+using Xunit;
 
 namespace ArgsReading.Tests
 {
-	[TestFixture]
 	public class ArgsReaderTests
 	{
-		[Test]
+		[Fact]
 		public void NullCtorArgsThrowsException()
 		{
-			Assert.Throws<ArgumentNullException>(() => new ArgsReader(null));
+			Invoking(() =>
+			{
+				var unused = new ArgsReader(null);
+			}).ShouldThrow<ArgumentNullException>();
 		}
 
-		[Test]
+		[Fact]
 		public void ReadValidShortFlag()
 		{
 			var args = new ArgsReader(new[] { "-x" });
-			args.ReadFlag("x").ShouldBe(true);
+			args.ReadFlag("x").Should().BeTrue();
 		}
 
-		[Test]
+		[Fact]
 		public void ReadMissingShortFlag()
 		{
 			var args = new ArgsReader(new[] { "-y" });
-			args.ReadFlag("x").ShouldBe(false);
+			args.ReadFlag("x").Should().BeFalse();
 		}
 
-		[Test]
+		[Fact]
 		public void ReadShortFlagTwice()
 		{
 			var args = new ArgsReader(new[] { "-x" });
-			args.ReadFlag("x").ShouldBe(true);
-			args.ReadFlag("x").ShouldBe(false);
+			args.ReadFlag("x").Should().BeTrue();
+			args.ReadFlag("x").Should().BeFalse();
 		}
 
-		[Test]
+		[Fact]
 		public void ReadShortFlagTwiceSpecifiedTwice()
 		{
 			var args = new ArgsReader(new[] { "-x", "-x" });
-			args.ReadFlag("x").ShouldBe(true);
-			args.ReadFlag("x").ShouldBe(true);
+			args.ReadFlag("x").Should().BeTrue();
+			args.ReadFlag("x").Should().BeTrue();
 		}
 
-		[Test]
+		[Fact]
 		public void ReadValidLongFlag()
 		{
 			var args = new ArgsReader(new[] { "--xyzzy" });
-			args.ReadFlag("xyzzy").ShouldBe(true);
+			args.ReadFlag("xyzzy").Should().BeTrue();
 		}
 
-		[Test]
+		[Fact]
 		public void ReadShortOrLongFlagAsShort()
 		{
 			var args = new ArgsReader(new[] { "-x" });
-			args.ReadFlag("x|xyzzy").ShouldBe(true);
+			args.ReadFlag("x|xyzzy").Should().BeTrue();
 		}
 
-		[Test]
+		[Fact]
 		public void ReadShortOrLongFlagAsLong()
 		{
 			var args = new ArgsReader(new[] { "--xyzzy" });
-			args.ReadFlag("x|xyzzy").ShouldBe(true);
+			args.ReadFlag("x|xyzzy").Should().BeTrue();
 		}
 
-		[Test]
+		[Fact]
 		public void ReadValidOption()
 		{
 			var args = new ArgsReader(new[] { "-x", "whatever" });
-			args.ReadOption("x").ShouldBe("whatever");
+			args.ReadOption("x").Should().Be("whatever");
 		}
 
-		[Test]
+		[Fact]
 		public void ReadMissingOption()
 		{
 			var args = new ArgsReader(new[] { "-y", "whatever" });
-			args.ReadOption("x").ShouldBe(null);
+			args.ReadOption("x").Should().BeNull();
 		}
 
-		[Test]
+		[Fact]
 		public void ReadShortOrLongOptionAsShort()
 		{
 			var args = new ArgsReader(new[] { "-x", "whatever" });
-			args.ReadOption("x|xyzzy").ShouldBe("whatever");
+			args.ReadOption("x|xyzzy").Should().Be("whatever");
 		}
 
-		[Test]
+		[Fact]
 		public void ReadShortOrLongOptionAsLong()
 		{
 			var args = new ArgsReader(new[] { "--xyzzy", "whatever" });
-			args.ReadOption("x|xyzzy").ShouldBe("whatever");
+			args.ReadOption("x|xyzzy").Should().Be("whatever");
 		}
 
-		[Test]
+		[Fact]
 		public void ReadOptionMissingValue()
 		{
 			var args = new ArgsReader(new[] { "-x" });
-			Assert.Throws<ArgsReaderException>(() => args.ReadOption("x"));
+			Invoking(() => args.ReadOption("x")).ShouldThrow<ArgsReaderException>();
 		}
 
-		[Test]
+		[Fact]
 		public void ReadOptionValueIsOption()
 		{
 			var args = new ArgsReader(new[] { "-x", "-y" });
-			Assert.Throws<ArgsReaderException>(() => args.ReadOption("x"));
+			Invoking(() => args.ReadOption("x")).ShouldThrow<ArgsReaderException>();
 		}
 
-		[Test]
+		[Fact]
 		public void ReadValidArgument()
 		{
 			var args = new ArgsReader(new[] { "whatever" });
-			args.ReadArgument().ShouldBe("whatever");
+			args.ReadArgument().Should().Be("whatever");
 		}
 
-		[Test]
+		[Fact]
 		public void ReadMissingArgument()
 		{
 			var args = new ArgsReader(new string[0]);
-			args.ReadArgument().ShouldBe(null);
+			args.ReadArgument().Should().BeNull();
 		}
 
-		[Test]
+		[Fact]
 		public void ReadOptionAsArgument()
 		{
 			var args = new ArgsReader(new[] { "-x" });
-			Assert.Throws<ArgsReaderException>(() => args.ReadArgument());
+			Invoking(() => args.ReadArgument()).ShouldThrow<ArgsReaderException>();
 		}
 
-		[Test]
+		[Fact]
 		public void VerifyComplete()
 		{
 			var args = new ArgsReader(new[] { "a", "-b", "-c", "d", "e" });
-			args.ReadFlag("b").ShouldBe(true);
-			args.ReadArgument().ShouldBe("a");
-			args.ReadOption("c").ShouldBe("d");
-			args.ReadArgument().ShouldBe("e");
+			args.ReadFlag("b").Should().BeTrue();
+			args.ReadArgument().Should().Be("a");
+			args.ReadOption("c").Should().Be("d");
+			args.ReadArgument().Should().Be("e");
 			args.VerifyComplete();
 		}
 
-		[Test]
+		[Fact]
 		public void VerifyIncomplete()
 		{
 			var args = new ArgsReader(new[] { "a" });
-			Assert.Throws<ArgsReaderException>(() => args.VerifyComplete());
+			Invoking(args.VerifyComplete).ShouldThrow<ArgsReaderException>();
+		}
+
+		private static Action Invoking(Action action)
+		{
+			return action;
 		}
 	}
 }

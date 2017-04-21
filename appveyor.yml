@@ -1,7 +1,5 @@
 version: '{build}'
-environment:
-  COVERALLSAPIKEY:
-    secure: aXHcGq6UbloALcSfGY09bJqjG1TmY6FlurvlBIlhhge5xbgw7ypBAB5Zz/tR6chY
+image: Visual Studio 2017
 build_script:
-- ps: .\build.ps1 -target=CoveragePublish -configuration=Debug "-coverallsApiKey=$env:COVERALLSAPIKEY"
+- ps: .\build.ps1 -target=NuGetPackage
 test: off

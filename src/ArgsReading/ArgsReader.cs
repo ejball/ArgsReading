@@ -19,10 +19,7 @@ namespace ArgsReading
 		/// <param name="args">The command-line arguments from <c>Main</c>.</param>
 		public ArgsReader(IEnumerable<string> args)
 		{
-			if (args == null)
-				throw new ArgumentNullException(nameof(args));
-
-			m_args = args.ToList();
+			m_args = args?.ToList() ?? throw new ArgumentNullException(nameof(args));
 		}
 
 		/// <summary>

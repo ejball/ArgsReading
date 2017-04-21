@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgsReading", "src\ArgsReading\ArgsReading.csproj", "{C17F0CF1-323F-4A55-B8E7-9E388B59AF91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArgsReading", "src\ArgsReading\ArgsReading.csproj", "{14354E19-4D78-40F7-AFF6-D1352829ED2A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "root", "root", "{68EEB72A-6D49-4B06-87C1-B54D028F897F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArgsReading.Tests", "tests\ArgsReading.Tests\ArgsReading.Tests.csproj", "{CA5DA700-5EA6-4042-8E0E-4D00DC4A50A3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "root", "root", "{88B1B84D-DF30-459A-9092-7F80D8F4B7F6}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
@@ -15,10 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "root", "root", "{68EEB72A-6
 		build.ps1 = build.ps1
 		LICENSE = LICENSE
 		README.md = README.md
-		SolutionInfo.cs = SolutionInfo.cs
 	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgsReading.Tests", "tests\ArgsReading.Tests\ArgsReading.Tests.csproj", "{AFA26C4F-6D1F-4CA3-8DCE-D2818B34AE74}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,14 +25,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C17F0CF1-323F-4A55-B8E7-9E388B59AF91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C17F0CF1-323F-4A55-B8E7-9E388B59AF91}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C17F0CF1-323F-4A55-B8E7-9E388B59AF91}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C17F0CF1-323F-4A55-B8E7-9E388B59AF91}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AFA26C4F-6D1F-4CA3-8DCE-D2818B34AE74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AFA26C4F-6D1F-4CA3-8DCE-D2818B34AE74}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AFA26C4F-6D1F-4CA3-8DCE-D2818B34AE74}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AFA26C4F-6D1F-4CA3-8DCE-D2818B34AE74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14354E19-4D78-40F7-AFF6-D1352829ED2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14354E19-4D78-40F7-AFF6-D1352829ED2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14354E19-4D78-40F7-AFF6-D1352829ED2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14354E19-4D78-40F7-AFF6-D1352829ED2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA5DA700-5EA6-4042-8E0E-4D00DC4A50A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA5DA700-5EA6-4042-8E0E-4D00DC4A50A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA5DA700-5EA6-4042-8E0E-4D00DC4A50A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA5DA700-5EA6-4042-8E0E-4D00DC4A50A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
