@@ -6,7 +6,7 @@
 
 Install **ArgsReading** from its [NuGet package](https://www.nuget.org/packages/ArgsReading).
 
-**ArgsReading** is compatible with most .NET platforms via [.NET Standard 1.1](https://docs.microsoft.com/en-us/dotnet/articles/standard/library) and [Portable Class Library (Profile111)](https://docs.microsoft.com/en-us/nuget/schema/target-frameworks#portable-class-libraries).
+**ArgsReading** is compatible with most .NET platforms via [.NET Standard 1.1](https://docs.microsoft.com/en-us/dotnet/articles/standard/library).
 
 ## Usage
 
