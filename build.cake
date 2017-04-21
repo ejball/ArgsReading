@@ -19,7 +19,6 @@ var githubRepo = "ArgsReading";
 var githubRawUri = "http://raw.githubusercontent.com";
 var docsAssembly = $@"src\ArgsReading\bin\{configuration}\netstandard1.1\ArgsReading.dll";
 var docsSourceUri = "https://github.com/ejball/ArgsReading/tree/master/src/ArgsReading";
-var docsNamespace = "ArgsReading";
 
 var rootPath = MakeAbsolute(Directory(".")).FullPath;
 var gitRepository = LibGit2Sharp.Repository.IsValid(rootPath) ? new LibGit2Sharp.Repository(rootPath) : null;
@@ -114,7 +113,7 @@ Task("Default")
 void GenerateDocs(bool verify)
 {
 	int exitCode = StartProcess($@"cake\XmlDocMarkdown\tools\XmlDocMarkdown.exe",
-		$@"{docsAssembly} docs\ --source ""{docsSourceUri}"" --namespace {docsNamespace} --clean" + (verify ? " --verify" : ""));
+		$@"{docsAssembly} docs\ --source ""{docsSourceUri}"" --clean" + (verify ? " --verify" : ""));
 	if (exitCode == 1 && verify)
 		throw new InvalidOperationException("Generated docs don't match; use -target=GenerateDocs to regenerate.");
 	else if (exitCode != 0)
