@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard1.1</TargetFramework>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <Version>1.1.0</Version>
+    <Version>1.1.1</Version>
     <Authors>Ed Ball</Authors>
     <Company />
     <Product />
@@ -20,16 +20,24 @@
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <TreatSpecificWarningsAsErrors />
     <DocumentationFile>bin\Release\netstandard1.1\ArgsReading.xml</DocumentationFile>
+    <DebugType>embedded</DebugType>
+    <DebugSymbols>True</DebugSymbols>
+    <SourceLinkCreate>True</SourceLinkCreate>
+    <SourceLinkTest>True</SourceLinkTest>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <TreatSpecificWarningsAsErrors />
     <DocumentationFile>bin\Debug\netstandard1.1\ArgsReading.xml</DocumentationFile>
+    <DebugType>embedded</DebugType>
+    <DebugSymbols>True</DebugSymbols>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="*.ncrunchproject" />
+    <PackageReference Include="SourceLink.Create.GitHub" Version="2.0.2" PrivateAssets="all" />
+    <DotNetCliToolReference Include="dotnet-sourcelink" Version="2.0.2" />
+    <DotNetCliToolReference Include="dotnet-sourcelink-git" Version="2.0.2" />
   </ItemGroup>
 
 </Project>
