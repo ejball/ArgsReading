@@ -74,7 +74,7 @@ Task("NuGetPublish")
 				throw new InvalidOperationException($"Mismatched package versions '{version}' and '{nupkgVersion}'.");
 		}
 
-		if (trigger == null || Regex.Match(trigger, "^v[0-9]"))
+		if (trigger == null || Regex.IsMatch(trigger, "^v[0-9]"))
 		{
 			if (trigger != null && trigger != $"v{version}")
 				throw new InvalidOperationException($"Trigger '{trigger}' doesn't match package version '{version}'.");
