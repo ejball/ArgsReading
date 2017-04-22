@@ -40,7 +40,7 @@ Task("Build")
 	.Does(() =>
 	{
 		DotNetCoreRestore(solutionFileName);
-		DotNetCoreBuild(solutionFileName, new DotNetCoreBuildSettings { Configuration = configuration });
+		DotNetCoreBuild(solutionFileName, new DotNetCoreBuildSettings { Configuration = configuration, ArgumentCustomization = args => args.Append("--verbosity normal") });
 	});
 
 Task("GenerateDocs")
