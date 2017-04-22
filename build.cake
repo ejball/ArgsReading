@@ -74,9 +74,9 @@ Task("NuGetPublish")
 				throw new InvalidOperationException($"Mismatched package versions '{version}' and '{nupkgVersion}'.");
 		}
 
-		if (trigger == null || trigger.StartsWith("nuget-", StringComparison.Ordinal))
+		if (trigger == null || Regex.Match(trigger, "^v[0-9]"))
 		{
-			if (trigger != null && trigger != $"nuget-{version}")
+			if (trigger != null && trigger != $"v{version}")
 				throw new InvalidOperationException($"Trigger '{trigger}' doesn't match package version '{version}'.");
 
 			var pushSettings = new NuGetPushSettings { ApiKey = nugetApiKey, Source = nugetSource };
@@ -85,7 +85,7 @@ Task("NuGetPublish")
 		}
 		else
 		{
-			Information("To publish this package, push this git tag: nuget-" + version);
+			Information("To publish this package, push this git tag: v" + version);
 		}
 	});
 
