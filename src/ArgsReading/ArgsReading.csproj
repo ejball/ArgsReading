@@ -14,22 +14,11 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/ejball/ArgsReading.git</RepositoryUrl>
     <PackageTags>command-line command line console shell argument option parser</PackageTags>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <TreatSpecificWarningsAsErrors />
-    <DocumentationFile>bin\Release\netstandard1.1\ArgsReading.xml</DocumentationFile>
     <DebugType>embedded</DebugType>
     <DebugSymbols>True</DebugSymbols>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-    <TreatSpecificWarningsAsErrors />
-    <DocumentationFile>bin\Debug\netstandard1.1\ArgsReading.xml</DocumentationFile>
-    <DebugType>embedded</DebugType>
-    <DebugSymbols>True</DebugSymbols>
+    <DocumentationFile>bin\$(Configuration)\netstandard1.1\ArgsReading.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
