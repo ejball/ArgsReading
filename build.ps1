@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 This is a Powershell script to bootstrap a Cake build.
 #>
@@ -51,5 +51,5 @@ Pop-Location
 
 # run Cake with specified arguments
 $CakeExePath = Join-Path $CakeDirPath "Cake/Cake.exe"
-Invoke-Expression "& `"$CakeExePath`" --paths_tools=cake -experimental $ScriptArgs"
+Invoke-Expression "& `"$CakeExePath`" --paths_tools=cake --experimental $ScriptArgs"
 Exit $LASTEXITCODE
