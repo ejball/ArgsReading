@@ -1,15 +1,12 @@
-#addin "nuget:?package=Cake.Git&version=0.14.0"
-#addin "nuget:?package=Octokit&version=0.24.0"
 #tool "nuget:?package=XmlDocMarkdown&version=0.4.1"
 #tool "nuget:?package=xunit.runner.console&version=2.2.0"
 
-using LibGit2Sharp;
 using System.Text.RegularExpressions;
 
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 var nugetApiKey = Argument("nugetApiKey", "");
-var githubApiKey = Argument("githubApiKey", "");
+var trigger = Argument("trigger", "");
 
 var solutionFileName = "ArgsReading.sln";
 var nugetSource = "https://api.nuget.org/v3/index.json";
@@ -17,13 +14,6 @@ var githubOwner = "ejball";
 var githubRepo = "ArgsReading";
 var docsAssembly = $@"src\ArgsReading\bin\{configuration}\netstandard1.1\ArgsReading.dll";
 var docsSourceUri = "https://github.com/ejball/ArgsReading/tree/master/src/ArgsReading";
-
-var rootPath = MakeAbsolute(Directory(".")).FullPath;
-var gitRepository = LibGit2Sharp.Repository.IsValid(rootPath) ? new LibGit2Sharp.Repository(rootPath) : null;
-
-var githubClient = new Octokit.GitHubClient(new Octokit.ProductHeaderValue("build.cake"));
-if (!string.IsNullOrEmpty(githubApiKey))
-	githubClient.Credentials = new Octokit.Credentials(githubApiKey);
 
 Task("Clean")
 	.Does(() =>
@@ -69,40 +59,30 @@ Task("NuGetPackage")
 
 Task("NuGetPublish")
 	.IsDependentOn("NuGetPackage")
-	.WithCriteria(() => !string.IsNullOrEmpty(nugetApiKey) && !string.IsNullOrEmpty(githubApiKey))
+	.WithCriteria(() => !string.IsNullOrEmpty(nugetApiKey))
 	.Does(() =>
 	{
-		var dirtyEntry = gitRepository.RetrieveStatus().FirstOrDefault(x => x.State != FileStatus.Unaltered && x.State != FileStatus.Ignored);
-		if (dirtyEntry != null)
-			throw new InvalidOperationException($"The git working directory must be clean, but '{dirtyEntry.FilePath}' is dirty.");
-
-		string headSha = gitRepository.Head.Tip.Sha;
-		try
-		{
-			githubClient.Repository.Commit.GetSha1(githubOwner, githubRepo, headSha).GetAwaiter().GetResult();
-		}
-		catch (Octokit.NotFoundException exception)
-		{
-			throw new InvalidOperationException($"The current commit '{headSha}' must be pushed to GitHub.", exception);
-		}
+		var nupkgPaths = GetFiles("release/*.nupkg").Select(x => x.FullPath).ToList();
 
 		string version = null;
-		var pushSettings = new NuGetPushSettings { ApiKey = nugetApiKey, Source = nugetSource };
-		foreach (var nupkgPath in GetFiles("release/*.nupkg").Select(x => x.FullPath))
+		foreach (var nupkgPath in nupkgPaths)
 		{
 			string nupkgVersion = Regex.Match(nupkgPath, @"\.([^\.]+\.[^\.]+\.[^\.]+)\.nupkg$").Groups[1].ToString();
 			if (version == null)
 				version = nupkgVersion;
 			else if (version != nupkgVersion)
 				throw new InvalidOperationException($"Mismatched package versions '{version}' and '{nupkgVersion}'.");
-
-			NuGetPush(nupkgPath, pushSettings);
 		}
 
-		var tagName = $"nuget-{version}";
-		Information($"Creating git tag '{tagName}'...");
-		githubClient.Git.Reference.Create(githubOwner, githubRepo,
-			new Octokit.NewReference($"refs/tags/{tagName}", headSha)).GetAwaiter().GetResult();
+		if (trigger == null || trigger.StartsWith("nuget-", StringComparison.Ordinal))
+		{
+			if (trigger != null && trigger != $"nuget-{version}")
+				throw new InvalidOperationException($"Trigger '{trigger}' doesn't match package version '{nupkgVersion}'.");
+
+			var pushSettings = new NuGetPushSettings { ApiKey = nugetApiKey, Source = nugetSource };
+			foreach (var nupkgPath in nupkgPaths)
+				NuGetPush(nupkgPath, pushSettings);
+		}
 	});
 
 Task("Default")
