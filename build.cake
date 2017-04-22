@@ -1,4 +1,4 @@
-#tool "nuget:?package=XmlDocMarkdown&version=0.4.1"
+﻿#tool "nuget:?package=XmlDocMarkdown&version=0.4.1"
 #tool "nuget:?package=xunit.runner.console&version=2.2.0"
 
 using System.Text.RegularExpressions;
@@ -77,7 +77,7 @@ Task("NuGetPublish")
 		if (trigger == null || trigger.StartsWith("nuget-", StringComparison.Ordinal))
 		{
 			if (trigger != null && trigger != $"nuget-{version}")
-				throw new InvalidOperationException($"Trigger '{trigger}' doesn't match package version '{nupkgVersion}'.");
+				throw new InvalidOperationException($"Trigger '{trigger}' doesn't match package version '{version}'.");
 
 			var pushSettings = new NuGetPushSettings { ApiKey = nugetApiKey, Source = nugetSource };
 			foreach (var nupkgPath in nupkgPaths)
