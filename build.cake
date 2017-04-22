@@ -9,6 +9,7 @@ var nugetApiKey = Argument("nugetApiKey", "");
 var trigger = Argument("trigger", "");
 
 var solutionFileName = "ArgsReading.sln";
+var nugetSource = "https://api.nuget.org/v3/index.json";
 var docsAssembly = $@"src\ArgsReading\bin\{configuration}\netstandard1.1\ArgsReading.dll";
 var docsSourceUri = "https://github.com/ejball/ArgsReading/tree/master/src/ArgsReading";
 
@@ -76,7 +77,7 @@ Task("NuGetPublish")
 			if (trigger != null && trigger != $"v{version}")
 				throw new InvalidOperationException($"Trigger '{trigger}' doesn't match package version '{version}'.");
 
-			var pushSettings = new NuGetPushSettings { ApiKey = nugetApiKey };
+			var pushSettings = new NuGetPushSettings { ApiKey = nugetApiKey, Source = nugetSource };
 			foreach (var nupkgPath in nupkgPaths)
 				NuGetPush(nupkgPath, pushSettings);
 		}
