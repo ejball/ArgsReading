@@ -83,6 +83,10 @@ Task("NuGetPublish")
 			foreach (var nupkgPath in nupkgPaths)
 				NuGetPush(nupkgPath, pushSettings);
 		}
+		else
+		{
+			Information("To publish this package, push this git tag: nuget-" + version);
+		}
 	});
 
 Task("Default")
