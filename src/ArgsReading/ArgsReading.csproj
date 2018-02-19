@@ -12,14 +12,14 @@
     <DebugSymbols>True</DebugSymbols>
     <PackageLicenseUrl>https://raw.githubusercontent.com/ejball/ArgsReading/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>http://ejball.com/ArgsReading/</PackageProjectUrl>
-    <PackageReleaseNotes>https://github.com/Faithlife/RepoName/blob/master/VersionHistory.md#released</PackageReleaseNotes>
+    <PackageReleaseNotes>https://github.com/ejball/ArgsReading/blob/master/VersionHistory.md#released</PackageReleaseNotes>
     <RepositoryUrl>https://github.com/ejball/ArgsReading.git</RepositoryUrl>
     <Authors>Ed Ball</Authors>
     <Copyright>Copyright 2017–2018 Ed Ball</Copyright>
     <Description>A simple library for reading command-line arguments.</Description>
     <PackageTags>command-line command line console shell argument option parser</PackageTags>
-    <SourceLinkUrl>https://raw.githubusercontent.com/Faithlife/RepoName/{commit}/*</SourceLinkUrl>
-    <SourceLinkOriginUrl>https://github.com/Faithlife/RepoName.git</SourceLinkOriginUrl>
+    <SourceLinkUrl>https://raw.githubusercontent.com/ejball/ArgsReading/{commit}/*</SourceLinkUrl>
+    <SourceLinkOriginUrl>https://github.com/ejball/ArgsReading.git</SourceLinkOriginUrl>
   </PropertyGroup>
 
   <ItemGroup>
