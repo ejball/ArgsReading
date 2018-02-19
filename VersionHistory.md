@@ -12,3 +12,4 @@ Prefix the description of the change with `[major]`, `[minor]` or `[patch]` in a
 ### 1.1.4
 
 * Start tracking version history.
+* Target .NET Standard 2.0 and .NET 4.6.1 as well as .NET Standard 1.1.
