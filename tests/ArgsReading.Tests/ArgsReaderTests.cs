@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using FluentAssertions;
 using Xunit;
 
@@ -147,9 +147,6 @@ namespace ArgsReading.Tests
 			Invoking(args.VerifyComplete).ShouldThrow<ArgsReaderException>();
 		}
 
-		private static Action Invoking(Action action)
-		{
-			return action;
-		}
+		private static Action Invoking(Action action) => action;
 	}
 }

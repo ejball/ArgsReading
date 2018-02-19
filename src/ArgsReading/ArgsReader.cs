@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -125,15 +125,9 @@ namespace ArgsReading
 				throw new ArgsReaderException($"Unexpected {(IsOption(m_args[0]) ? "option" : "argument")} '{m_args[0]}'.");
 		}
 
-		private static bool IsOption(string value)
-		{
-			return value.Length >= 2 && value[0] == '-' && value != "--";
-		}
+		private static bool IsOption(string value) => value.Length >= 2 && value[0] == '-' && value != "--";
 
-		private static string RenderOption(string name)
-		{
-			return name.Length == 1 ? $"-{name}" : $"--{name}";
-		}
+		private static string RenderOption(string name) => name.Length == 1 ? $"-{name}" : $"--{name}";
 
 		readonly List<string> m_args;
 	}
