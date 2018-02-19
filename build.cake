@@ -1,4 +1,4 @@
-﻿#tool "nuget:?package=XmlDocMarkdown&version=0.5.0"
+#tool "nuget:?package=XmlDocMarkdown&version=0.5.0"
 #tool "nuget:?package=xunit.runner.console&version=2.2.0"
 
 using System.Text.RegularExpressions;
