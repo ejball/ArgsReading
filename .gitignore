@@ -1,15 +1,21 @@
-.vs/
-.vscode/
+# ignore output folders
 bin/
+build/
 cake/
 obj/
+ipch/
 release/
+tools/
 
+# ignore user-specific options/cache files
+.vs/
+.vscode/
+Thumbs.db
 *.cache
-*.log
+*.user
+*.opensdf
+*.sdf
+*.suo
+*.userprefs
 *.ncrunchproject
 *.ncrunchsolution
-*.suo
-*.user
-
-launchSettings.json
