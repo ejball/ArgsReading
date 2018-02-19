@@ -9,10 +9,10 @@ var nugetApiKey = Argument("nugetApiKey", "");
 var trigger = Argument("trigger", "");
 var versionSuffix = Argument("versionSuffix", "");
 
-var solutionFileName = "ProjectName.sln";
-var docsAssembly = File($"src/ProjectName/bin/{configuration}/net461/ProjectName.dll").ToString();
-var docsRepoUri = "https://github.com/ejball/RepoName.git";
-var docsSourceUri = "https://github.com/ejball/RepoName/tree/master/src/ProjectName";
+var solutionFileName = "ArgsReading.sln";
+var docsAssembly = File($"src/ArgsReading/bin/{configuration}/net461/ArgsReading.dll").ToString();
+var docsRepoUri = "https://github.com/ejball/ArgsReading.git";
+var docsSourceUri = "https://github.com/ejball/ArgsReading/tree/master/src/ArgsReading";
 
 var nugetSource = "https://api.nuget.org/v3/index.json";
 var buildBotUserName = "ejball";

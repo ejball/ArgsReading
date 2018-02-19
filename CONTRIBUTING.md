@@ -1,4 +1,4 @@
-# Contributing to ProjectName
+# Contributing to ArgsReading
 
 ## Prerequisites
 
@@ -13,6 +13,6 @@
 
 ## How to Build
 
-* Clone the repository: `git clone https://github.com/ejball/RepoName.git`
-* `cd RepoName`
-* `dotnet test tests/ProjectName.Tests`
+* Clone the repository: `git clone https://github.com/ejball/ArgsReading.git`
+* `cd ArgsReading`
+* `dotnet test tests/ArgsReading.Tests`
