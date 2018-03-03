@@ -94,6 +94,20 @@ namespace ArgsReading.Tests
 			args.ReadOption("x|xyzzy").Should().Be("whatever");
 		}
 
+		[Theory, InlineData(false), InlineData(true)]
+		public void ReadShortOptionWrongCase(bool ignoreCase)
+		{
+			var args = new ArgsReader(new[] { "-X", "whatever" }) { ShortOptionIgnoreCase = ignoreCase };
+			args.ReadOption("x").Should().Be(ignoreCase ? "whatever" : null);
+		}
+
+		[Theory, InlineData(false), InlineData(true)]
+		public void ReadLongOptionWrongCase(bool ignoreCase)
+		{
+			var args = new ArgsReader(new[] { "--Xyzzy", "whatever" }) { LongOptionIgnoreCase = ignoreCase };
+			args.ReadOption("xyzzY").Should().Be(ignoreCase ? "whatever" : null);
+		}
+
 		[Fact]
 		public void ReadOptionMissingValue()
 		{

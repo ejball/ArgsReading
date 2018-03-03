@@ -23,6 +23,16 @@ namespace ArgsReading
 		}
 
 		/// <summary>
+		/// True if short options (e.g. <c>-h</c>) should ignore case.
+		/// </summary>
+		public bool ShortOptionIgnoreCase { get; set; }
+
+		/// <summary>
+		/// True if long options (e.g. <c>--help</c>) should ignore case.
+		/// </summary>
+		public bool LongOptionIgnoreCase { get; set; }
+
+		/// <summary>
 		/// Reads the specified flag, returning true if it is found.
 		/// </summary>
 		/// <param name="name">The name of the specified flag.</param>
@@ -32,8 +42,9 @@ namespace ArgsReading
 		/// unless the same flag appears twice on the command line.</para>
 		/// <para>To support multiple names for the same flag, use a <c>|</c> to separate them,
 		/// e.g. use <c>help|h|?</c> to support three different names for a help flag.</para>
-		/// <para>Single-character names use a single hyphen, e.g. <c>-h</c>. Longer names use
-		/// a double hyphen, e.g. <c>--help</c>.</para></remarks>
+		/// <para>Single-character names use a single hyphen, e.g. <c>-h</c>, and are matched
+		/// case-sensitively. Longer names use a double hyphen, e.g. <c>--help</c>, and are
+		/// matched case-insensitively.</para></remarks>
 		/// <exception cref="ArgumentNullException"><c>name</c> is <c>null</c>.</exception>
 		/// <exception cref="ArgumentException">One of the names is empty.</exception>
 		public bool ReadFlag(string name)
@@ -47,7 +58,7 @@ namespace ArgsReading
 			if (names.Length > 1)
 				return names.Any(ReadFlag);
 
-			int index = m_args.IndexOf(RenderOption(name));
+			int index = m_args.FindIndex(x => string.Equals(x, RenderOption(name), GetOptionComparison(name)));
 			if (index == -1)
 				return false;
 
@@ -63,10 +74,11 @@ namespace ArgsReading
 		/// <remarks><para>If the option is found, the method returns the command-line argument
 		/// after the option and both arguments are removed. If <c>ReadOption</c> is called with the
 		/// same name, it will return <c>null</c>, unless the same option appears twice on the command line.</para>
-		/// <para>To support multiple names for the same option, use a <c>|</c> to separate them,
+		/// <para>To support multiple names for the same option, use a vertical bar (<c>|</c>) to separate them,
 		/// e.g. use <c>n|name</c> to support two different names for a module option.</para>
-		/// <para>Single-character names use a single hyphen, e.g. <c>-n example</c>. Longer names use
-		/// a double hyphen, e.g. <c>--name example</c>.</para></remarks>
+		/// <para>Single-character names use a single hyphen, e.g. <c>-n example</c>, and are matched
+		/// case-sensitively. Longer names use a double hyphen, e.g. <c>--name example</c>, and are
+		/// matched case-insensitively.</para></remarks>
 		/// <exception cref="ArgumentNullException"><c>name</c> is <c>null</c>.</exception>
 		/// <exception cref="ArgumentException">One of the names is empty.</exception>
 		/// <exception cref="ArgsReaderException">The argument that must follow the option is missing.</exception>
@@ -81,7 +93,7 @@ namespace ArgsReading
 			if (names.Length > 1)
 				return names.Select(ReadOption).FirstOrDefault(x => x != null);
 
-			int index = m_args.IndexOf(RenderOption(name));
+			int index = m_args.FindIndex(x => string.Equals(x, RenderOption(name), GetOptionComparison(name)));
 			if (index == -1)
 				return null;
 
@@ -128,6 +140,10 @@ namespace ArgsReading
 		private static bool IsOption(string value) => value.Length >= 2 && value[0] == '-' && value != "--";
 
 		private static string RenderOption(string name) => name.Length == 1 ? $"-{name}" : $"--{name}";
+
+		private StringComparison GetOptionComparison(string name) => name.Length == 1 ?
+			(ShortOptionIgnoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal) :
+			(LongOptionIgnoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
 
 		readonly List<string> m_args;
 	}

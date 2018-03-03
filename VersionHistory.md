@@ -9,6 +9,10 @@ Prefix the description of the change with `[major]`, `[minor]` or `[patch]` in a
 
 ## Released
 
+### 1.2.0
+
+* Support ignoring case when matching options.
+
 ### 1.1.4
 
 * Start tracking version history.
