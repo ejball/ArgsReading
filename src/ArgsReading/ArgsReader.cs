@@ -17,6 +17,7 @@ namespace ArgsReading
 		/// Creates a reader for the specified command-line arguments.
 		/// </summary>
 		/// <param name="args">The command-line arguments from <c>Main</c>.</param>
+		/// <exception cref="ArgumentNullException"><c>args</c> is <c>null</c>.</exception>
 		public ArgsReader(IEnumerable<string> args)
 		{
 			m_args = args?.ToList() ?? throw new ArgumentNullException(nameof(args));
