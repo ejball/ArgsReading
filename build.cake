@@ -73,6 +73,7 @@ Task("UpdateDocs")
 		if (buildBranch != "master" || !Regex.IsMatch(trigger, "^v[0-9]|^update-docs$"))
 			outputPath += $"{slash}preview{slash}{buildBranch}";
 
+		Information($"Updating documentation at {outputPath}.");
 		XmlDocMarkdownGenerate(docsAssembly, $"{outputPath}{slash}",
 			new XmlDocMarkdownSettings { SourceCodePath = docsSourceUri, NewLine = "\n", ShouldClean = true });
 
