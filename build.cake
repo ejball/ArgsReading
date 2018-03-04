@@ -1,5 +1,5 @@
-#addin "Cake.Git"
-#tool "nuget:?package=XmlDocMarkdown&version=1.0.1"
+#addin "nuget:?package=Cake.Git&version=0.17.0"
+#addin "nuget:?package=XmlDocMarkdown.Core&version=1.0.2"
 
 using System.Text.RegularExpressions;
 
@@ -48,11 +48,8 @@ Task("UpdateDocs")
 		var branchName = "gh-pages";
 		var docsDirectory = new DirectoryPath(branchName);
 		GitClone(docsRepoUri, docsDirectory, new GitCloneSettings { BranchName = branchName });
-		var exePath = Context.Tools.Resolve("XmlDocMarkdown.exe").ToString();
-		var arguments = $@"{docsAssembly} {branchName}{System.IO.Path.DirectorySeparatorChar} --source ""{docsSourceUri}"" --newline lf --clean";
-		int exitCode = StartProcess(exePath, arguments);
-		if (exitCode != 0)
-			throw new InvalidOperationException($"Docs generation failed with exit code {exitCode}.");
+		XmlDocMarkdownGenerate(docsAssembly, $"{branchName}{System.IO.Path.DirectorySeparatorChar}",
+			new XmlDocMarkdownSettings { SourceCodePath = docsSourceUri, NewLine = "\n", ShouldClean = true });
 		if (GitHasUncommitedChanges(docsDirectory))
 		{
 			Information("Committing all documentation changes.");
