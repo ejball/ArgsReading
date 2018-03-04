@@ -1,5 +1,5 @@
 #addin "Cake.Git"
-#tool "nuget:?package=XmlDocMarkdown&version=0.5.6"
+#tool "nuget:?package=XmlDocMarkdown&version=1.0.1"
 
 using System.Text.RegularExpressions;
 
