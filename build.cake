@@ -48,7 +48,7 @@ Task("UpdateDocs")
 		var branchName = "gh-pages";
 		var docsDirectory = new DirectoryPath(branchName);
 		GitClone(docsRepoUri, docsDirectory, new GitCloneSettings { BranchName = branchName });
-		var exePath = File("cake/xmldocmarkdown.0.5.6/XmlDocMarkdown/tools/XmlDocMarkdown.exe").ToString();
+		var exePath = Context.Tools.Resolve("XmlDocMarkdown.exe").ToString();
 		var arguments = $@"{docsAssembly} {branchName}{System.IO.Path.DirectorySeparatorChar} --source ""{docsSourceUri}"" --newline lf --clean";
 		int exitCode = StartProcess(exePath, arguments);
 		if (exitCode != 0)
