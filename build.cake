@@ -70,8 +70,8 @@ Task("UpdateDocs")
 		var outputPath = ghpagesBranch;
 		var buildBranch = EnvironmentVariable("APPVEYOR_REPO_BRANCH");
 		var slash = System.IO.Path.DirectorySeparatorChar;
-		if (!Regex.IsMatch(trigger, "^v[0-9]") && trigger != "update-docs")
-			outputPath += $"{slash}preview{slash}buildBranch";
+		if (buildBranch != "master" || !Regex.IsMatch(trigger, "^v[0-9]|^update-docs$"))
+			outputPath += $"{slash}preview{slash}{buildBranch}";
 
 		XmlDocMarkdownGenerate(docsAssembly, $"{outputPath}{slash}",
 			new XmlDocMarkdownSettings { SourceCodePath = docsSourceUri, NewLine = "\n", ShouldClean = true });
