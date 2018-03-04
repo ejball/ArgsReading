@@ -23,12 +23,12 @@ namespace ArgsReading
 		}
 
 		/// <summary>
-		/// True if short options (e.g. <c>-h</c>) should ignore case.
+		/// True if short options (e.g. <c>-h</c>) should ignore case. (Default false.)
 		/// </summary>
 		public bool ShortOptionIgnoreCase { get; set; }
 
 		/// <summary>
-		/// True if long options (e.g. <c>--help</c>) should ignore case.
+		/// True if long options (e.g. <c>--help</c>) should ignore case. (Default false.)
 		/// </summary>
 		public bool LongOptionIgnoreCase { get; set; }
 
