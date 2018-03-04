@@ -39,17 +39,43 @@ Task("Rebuild")
 	.IsDependentOn("Clean")
 	.IsDependentOn("Build");
 
-Task("UpdateDocs")
-	.WithCriteria(!string.IsNullOrEmpty(buildBotPassword))
-	.WithCriteria(EnvironmentVariable("APPVEYOR_REPO_BRANCH") == "master")
+Task("Test")
 	.IsDependentOn("Build")
 	.Does(() =>
 	{
-		var branchName = "gh-pages";
-		var docsDirectory = new DirectoryPath(branchName);
-		GitClone(docsRepoUri, docsDirectory, new GitCloneSettings { BranchName = branchName });
-		XmlDocMarkdownGenerate(docsAssembly, $"{branchName}{System.IO.Path.DirectorySeparatorChar}",
+		foreach (var projectPath in GetFiles("tests/**/*.csproj").Select(x => x.FullPath))
+			DotNetCoreTest(projectPath, new DotNetCoreTestSettings { Configuration = configuration });
+	});
+
+Task("NuGetPackage")
+	.IsDependentOn("Rebuild")
+	.IsDependentOn("Test")
+	.Does(() =>
+	{
+		if (string.IsNullOrEmpty(versionSuffix) && !string.IsNullOrEmpty(trigger))
+			versionSuffix = Regex.Match(trigger, @"^v[^\.]+\.[^\.]+\.[^\.]+-(.+)").Groups[1].ToString();
+		foreach (var projectPath in GetFiles("src/**/*.csproj").Select(x => x.FullPath))
+			DotNetCorePack(projectPath, new DotNetCorePackSettings { Configuration = configuration, OutputDirectory = "release", VersionSuffix = versionSuffix });
+	});
+
+Task("UpdateDocs")
+	.WithCriteria(!string.IsNullOrEmpty(buildBotPassword))
+	.IsDependentOn("Build")
+	.Does(() =>
+	{
+		var ghpagesBranch = "gh-pages";
+		var docsDirectory = new DirectoryPath(ghpagesBranch);
+		GitClone(docsRepoUri, docsDirectory, new GitCloneSettings { BranchName = ghpagesBranch });
+
+		var outputPath = ghpagesBranch;
+		var buildBranch = EnvironmentVariable("APPVEYOR_REPO_BRANCH");
+		var slash = System.IO.Path.DirectorySeparatorChar;
+		if (!Regex.IsMatch(trigger, "^v[0-9]") && trigger != "update-docs")
+			outputPath += $"{slash}preview{slash}buildBranch";
+
+		XmlDocMarkdownGenerate(docsAssembly, $"{outputPath}{slash}",
 			new XmlDocMarkdownSettings { SourceCodePath = docsSourceUri, NewLine = "\n", ShouldClean = true });
+
 		if (GitHasUncommitedChanges(docsDirectory))
 		{
 			Information("Committing all documentation changes.");
@@ -64,28 +90,9 @@ Task("UpdateDocs")
 		}
 	});
 
-Task("Test")
-	.IsDependentOn("Build")
-	.Does(() =>
-	{
-		foreach (var projectPath in GetFiles("tests/**/*.csproj").Select(x => x.FullPath))
-			DotNetCoreTest(projectPath, new DotNetCoreTestSettings { Configuration = configuration });
-	});
-
-Task("NuGetPackage")
-	.IsDependentOn("Rebuild")
-	.IsDependentOn("Test")
-	.IsDependentOn("UpdateDocs")
-	.Does(() =>
-	{
-		if (string.IsNullOrEmpty(versionSuffix) && !string.IsNullOrEmpty(trigger))
-			versionSuffix = Regex.Match(trigger, @"^v[^\.]+\.[^\.]+\.[^\.]+-(.+)").Groups[1].ToString();
-		foreach (var projectPath in GetFiles("src/**/*.csproj").Select(x => x.FullPath))
-			DotNetCorePack(projectPath, new DotNetCorePackSettings { Configuration = configuration, OutputDirectory = "release", VersionSuffix = versionSuffix });
-	});
-
 Task("NuGetPublish")
 	.IsDependentOn("NuGetPackage")
+	.IsDependentOn("UpdateDocs")
 	.Does(() =>
 	{
 		var nupkgPaths = GetFiles("release/*.nupkg").Select(x => x.FullPath).ToList();
