@@ -23,7 +23,7 @@ If (!(Test-Path $PackagesConfigPath)) {
     [System.IO.File]::WriteAllLines($PackagesConfigPath, @(
         "<?xml version=`"1.0`" encoding=`"utf-8`"?>",
         "<packages>",
-        "`t<package id=`"Cake`" version=`"0.23.0`" />",
+        "`t<package id=`"Cake`" version=`"0.26.1`" />",
         "</packages>"))
 }
 
@@ -51,5 +51,5 @@ Pop-Location
 $CakeExePath = Join-Path $CakeDirPath "Cake/Cake.exe"
 $ExtraArgs = ""
 if ($Target) { $ExtraArgs += "--target=$Target" }
-Invoke-Expression "& `"$CakeExePath`" --paths_tools=cake --experimental $ExtraArgs $ScriptArgs"
+Invoke-Expression "& `"$CakeExePath`" --paths_tools=cake --experimental --nuget_loaddependencies=true $ExtraArgs $ScriptArgs"
 Exit $LASTEXITCODE
