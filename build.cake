@@ -1,5 +1,5 @@
 #addin nuget:?package=Cake.Git&version=0.17.0
-#addin nuget:?package=Cake.XmlDocMarkdown&version=1.2.0
+#addin nuget:?package=Cake.XmlDocMarkdown&version=1.2.1
 
 using System.Text.RegularExpressions;
 
@@ -125,17 +125,5 @@ Task("NuGetPublish")
 
 Task("Default")
 	.IsDependentOn("Test");
-
-void ExecuteProcess(string exePath, string arguments)
-{
-	if (IsRunningOnUnix())
-	{
-		arguments = exePath + " " + arguments;
-		exePath = "mono";
-	}
-	int exitCode = StartProcess(exePath, arguments);
-	if (exitCode != 0)
-		throw new InvalidOperationException($"{exePath} failed with exit code {exitCode}.");
-}
 
 RunTarget(target);
