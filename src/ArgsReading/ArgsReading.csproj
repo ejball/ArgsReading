@@ -17,7 +17,7 @@
     <Authors>Ed Ball</Authors>
     <Copyright>Copyright 2017–2018 Ed Ball</Copyright>
     <Description>A simple library for reading command-line arguments.</Description>
-    <PackageTags>command-line command line console shell argument option parser</PackageTags>
+    <PackageTags>command-line command line console shell argument option parser ArgsReader</PackageTags>
     <SourceLinkUrl>https://raw.githubusercontent.com/ejball/ArgsReading/{commit}/*</SourceLinkUrl>
     <SourceLinkOriginUrl>https://github.com/ejball/ArgsReading.git</SourceLinkOriginUrl>
   </PropertyGroup>
