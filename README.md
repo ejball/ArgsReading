@@ -7,7 +7,7 @@
 
 ## Documentation
 
-* http://ejball.com/ArgsReading/
+* https://ejball.com/ArgsReading/
 * License: [MIT](LICENSE)
 * [Version History](VersionHistory.md)
 * [Contributing Guidelines](CONTRIBUTING.md)
