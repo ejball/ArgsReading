@@ -12,3 +12,5 @@ build_script:
 - ps: .\build.ps1 --target=NuGetPublish """--trigger=$env:APPVEYOR_REPO_TAG_NAME""" "--nugetApiKey=$env:NUGETAPIKEY"
 - sh: ./build.sh --target=NuGetPackage
 test: off
+artifacts:
+- path: 'release\*.nupkg'
