@@ -5,6 +5,9 @@
     <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
     <Description>A simple library for reading command-line arguments.</Description>
     <PackageTags>command-line command line console shell argument option parser ArgsReader</PackageTags>
+    <SignAssembly>true</SignAssembly>
+    <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
+    <AssemblyOriginatorKeyFile>../ArgsReading.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>
