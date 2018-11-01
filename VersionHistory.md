@@ -9,6 +9,11 @@ Prefix the description of the change with `[major]`, `[minor]` or `[patch]` in a
 
 ## Released
 
+### 2.0.0
+
+* Drop .NET Standard 1.1 (per [open-source library guidance](https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/cross-platform-targeting)).
+* Strong name the assembly (per [open-source library guidance](https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/strong-naming)).
+
 ### 1.2.0
 
 * Support ignoring case when matching options.
