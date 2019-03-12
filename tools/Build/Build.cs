@@ -1,9 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using GlobExpressions;
 using McMaster.Extensions.CommandLineUtils;
 using SimpleExec;
 using static Bullseye.Targets;
@@ -33,12 +35,7 @@ internal sealed class Build
 		Target("clean",
 			() =>
 			{
-				var directories = Directory.GetDirectories("src", "bin", SearchOption.AllDirectories)
-					.Concat(Directory.GetDirectories("src", "obj", SearchOption.AllDirectories))
-					.Concat(Directory.GetDirectories("tests", "bin", SearchOption.AllDirectories))
-					.Concat(Directory.GetDirectories("tests", "obj", SearchOption.AllDirectories))
-					.Concat(Directory.GetDirectories(".", "release"));
-				foreach (var directory in directories)
+				foreach (var directory in FindDirectories("{src,tests}/**/{bin,obj}", "release"))
 					Directory.Delete(directory, recursive: true);
 			});
 
@@ -79,7 +76,7 @@ internal sealed class Build
 			DependsOn("package"),
 			() =>
 			{
-				foreach (var packagePath in Directory.GetFiles("release", "*.nupkg"))
+				foreach (var packagePath in FindFiles("release/*.nupkg"))
 					RunDotNetTool("sourcelink", "test", packagePath);
 			});
 
@@ -87,7 +84,7 @@ internal sealed class Build
 			DependsOn("package-test"),
 			() =>
 			{
-				var nupkgPaths = Directory.GetFiles("release", "*.nupkg");
+				var nupkgPaths = FindFiles("release/*.nupkg");
 
 				string version = null;
 				foreach (var nupkgPath in nupkgPaths)
@@ -145,4 +142,8 @@ internal sealed class Build
 			RunDotNet("tool", "install", name, "--tool-path", toolsPath);
 		RunApp(Path.Combine(toolsPath, name), args);
 	}
+
+	private static IReadOnlyList<string> FindDirectories(params string[] globs) => globs.SelectMany(glob => Glob.Directories(".", glob)).ToList();
+
+	private static IReadOnlyList<string> FindFiles(params string[] globs) => globs.SelectMany(glob => Glob.Files(".", glob)).ToList();
 }
