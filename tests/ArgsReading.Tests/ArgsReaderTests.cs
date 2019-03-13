@@ -144,6 +144,27 @@ namespace ArgsReading.Tests
 		}
 
 		[Fact]
+		public void ReadValidArguments()
+		{
+			var args = new ArgsReader(new[] { "whatever", "however" });
+			args.ReadArguments().Should().Equal("whatever", "however");
+		}
+
+		[Fact]
+		public void ReadMissingArguments()
+		{
+			var args = new ArgsReader(new string[0]);
+			args.ReadArguments().Should().BeEmpty();
+		}
+
+		[Fact]
+		public void ReadOptionAsArguments()
+		{
+			var args = new ArgsReader(new[] { "-x" });
+			Invoking(() => args.ReadArguments()).ShouldThrow<ArgsReaderException>();
+		}
+
+		[Fact]
 		public void VerifyComplete()
 		{
 			var args = new ArgsReader(new[] { "a", "-b", "-c", "d", "e" });

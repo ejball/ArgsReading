@@ -129,6 +129,26 @@ namespace ArgsReading
 		}
 
 		/// <summary>
+		/// Reads any remaining non-option arguments.
+		/// </summary>
+		/// <returns>The remaining non-option arguments, if any.</returns>
+		/// <remarks><para>If any remaining arguments are options, this method throws an exception.
+		/// If options can appear before normal arguments, be sure to read all options before reading
+		/// any normal arguments.</para></remarks>
+		/// <exception cref="ArgsReaderException">A remaining argument is an option.</exception>
+		public IReadOnlyList<string> ReadArguments()
+		{
+			var arguments = new List<string>();
+			while (true)
+			{
+				string argument = ReadArgument();
+				if (argument == null)
+					return arguments;
+				arguments.Add(argument);
+			}
+		}
+
+		/// <summary>
 		/// Confirms that all arguments were processed.
 		/// </summary>
 		/// <exception cref="ArgsReaderException">A command-line argument was not read.</exception>
