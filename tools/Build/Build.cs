@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using GlobExpressions;
 using McMaster.Extensions.CommandLineUtils;
 using SimpleExec;
+using XmlDocMarkdown.Core;
 using static Bullseye.Targets;
 
 internal sealed class Build
@@ -29,6 +30,8 @@ internal sealed class Build
 
 	public const string SolutionName = "ArgsReading.sln";
 	public const string NuGetSource = "https://api.nuget.org/v3/index.json";
+	public readonly IReadOnlyList<string> DocsProjects = new[] { "ArgsReading" };
+	public const string DocsSourceUri = "https://github.com/ejball/ArgsReading/tree/master/src";
 
 	public void CreateTargets()
 	{
@@ -106,6 +109,17 @@ internal sealed class Build
 				else
 				{
 					Console.WriteLine($"To publish this package, push this git tag: v{version}");
+				}
+			});
+
+		Target("docs",
+			DependsOn("build"),
+			() =>
+			{
+				foreach (string docsProject in DocsProjects)
+				{
+					XmlDocMarkdownGenerator.Generate($"src/{docsProject}/bin/{Configuration}/netstandard2.0/{docsProject}.dll", "release/docs",
+						new XmlDocMarkdownSettings { SourceCodePath = $"{DocsSourceUri}/{docsProject}", NewLine = "\n", ShouldClean = true });
 				}
 			});
 
