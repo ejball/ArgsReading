@@ -1,16 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <VersionPrefix>2.0.0</VersionPrefix>
-    <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
+    <VersionPrefix>2.1.0</VersionPrefix>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <IsPackable>true</IsPackable>
     <Description>A simple library for reading command-line arguments.</Description>
     <PackageTags>command-line command line console shell argument option parser ArgsReader</PackageTags>
     <SignAssembly>true</SignAssembly>
     <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
     <AssemblyOriginatorKeyFile>../ArgsReading.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
-
-  <ItemGroup>
-  </ItemGroup>
 
 </Project>
