@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using GlobExpressions;
+using LibGit2Sharp;
 using McMaster.Extensions.CommandLineUtils;
 using SimpleExec;
 using XmlDocMarkdown.Core;
@@ -30,8 +31,15 @@ internal sealed class Build
 
 	public const string SolutionName = "ArgsReading.sln";
 	public const string NuGetSource = "https://api.nuget.org/v3/index.json";
+
 	public readonly IReadOnlyList<string> DocsProjects = new[] { "ArgsReading" };
+	public const string DocsRepoUri = "https://github.com/ejball/ArgsReading.git";
 	public const string DocsSourceUri = "https://github.com/ejball/ArgsReading/tree/master/src";
+
+	public const string BuildBotUserName = "ejball";
+	public readonly string BuildBotPassword = Environment.GetEnvironmentVariable("BUILD_BOT_PASSWORD");
+	public const string BuildBotDisplayName = "ejball";
+	public const string BuildBotEmail = "ejball@gmail.com";
 
 	public void CreateTargets()
 	{
@@ -112,14 +120,46 @@ internal sealed class Build
 				}
 			});
 
-		Target("docs",
+		Target("update-docs",
 			DependsOn("build"),
 			() =>
 			{
-				foreach (string docsProject in DocsProjects)
+				if (Environment.GetEnvironmentVariable("APPVEYOR_REPO_BRANCH") != "master")
 				{
-					XmlDocMarkdownGenerator.Generate($"src/{docsProject}/bin/{Configuration}/netstandard2.0/{docsProject}.dll", "release/docs",
-						new XmlDocMarkdownSettings { SourceCodePath = $"{DocsSourceUri}/{docsProject}", NewLine = "\n", ShouldClean = true });
+					Console.WriteLine("Documentation is updated when Appveyor builds the master branch.");
+				}
+				else if (BuildBotPassword == null)
+				{
+					Console.WriteLine("Documentation update requires BUILD_BOT_PASSWORD.");
+				}
+				else
+				{
+					const string branchName = "gh-pages";
+					if (!Directory.Exists(branchName))
+						Repository.Clone(DocsRepoUri, branchName, new CloneOptions { BranchName = branchName });
+
+					foreach (string docsProject in DocsProjects)
+					{
+						XmlDocMarkdownGenerator.Generate($"src/{docsProject}/bin/{Configuration}/netstandard2.0/{docsProject}.dll", $"{branchName}/",
+							new XmlDocMarkdownSettings { SourceCodePath = $"{DocsSourceUri}/{docsProject}", NewLine = "\n", ShouldClean = true });
+					}
+
+					using (var repository = new Repository(branchName))
+					{
+						if (repository.RetrieveStatus().IsDirty)
+						{
+							Console.WriteLine("Deploying documentation changes.");
+							Commands.Stage(repository, "*");
+							var author = new Signature(BuildBotDisplayName, BuildBotEmail, DateTimeOffset.Now);
+							repository.Commit(message: "Automatic documentation update.", author, author, new CommitOptions());
+							var credentials = new UsernamePasswordCredentials { Username = BuildBotUserName, Password = BuildBotPassword };
+							repository.Network.Push(repository.Branches, new PushOptions { CredentialsProvider = (_, __, ___) => credentials });
+						}
+						else
+						{
+							Console.WriteLine("No documentation changes detected.");
+						}
+					}
 				}
 			});
 
