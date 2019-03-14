@@ -23,6 +23,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		VersionHistory.md = VersionHistory.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildTools", "tools\BuildTools\BuildTools.csproj", "{6458B36E-051E-4C49-9B3E-8D813CB8CBEB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{0933F25B-7BFA-4F69-AE24-7B7873E30EE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0933F25B-7BFA-4F69-AE24-7B7873E30EE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0933F25B-7BFA-4F69-AE24-7B7873E30EE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6458B36E-051E-4C49-9B3E-8D813CB8CBEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6458B36E-051E-4C49-9B3E-8D813CB8CBEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6458B36E-051E-4C49-9B3E-8D813CB8CBEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6458B36E-051E-4C49-9B3E-8D813CB8CBEB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

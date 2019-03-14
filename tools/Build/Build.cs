@@ -1,48 +1,36 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using GlobExpressions;
+using BuildTools;
 using LibGit2Sharp;
-using McMaster.Extensions.CommandLineUtils;
-using SimpleExec;
 using XmlDocMarkdown.Core;
+using static BuildTools.BuildUtility;
+using static BuildTools.DotNetRunner;
 using static Bullseye.Targets;
 
-internal sealed class Build
+internal static class Build
 {
-	[Option("-c|--configuration", ValueName = "name", Description = "The configuration to build (default Release)")]
-	public string Configuration { get; } = "Release";
-
-	[Option("--nuget-api-key", ValueName = "key", Description = "NuGet API key for publishing")]
-	public string NuGetApiKey { get; } = null;
-
-	[Option("--version-suffix", ValueName = "suffix", Description = "Generates a prerelease package")]
-	public string VersionSuffix { get; } = null;
-
-	[Option("--trigger", ValueName = "name", Description = "The branch or tag that triggered the build")]
-	public string Trigger { get; } = null;
-
-	[Argument(0, Description = "The targets to build")]
-	public string[] Targets { get; } = { };
-
-	public const string SolutionName = "ArgsReading.sln";
-	public const string NuGetSource = "https://api.nuget.org/v3/index.json";
-
-	public readonly IReadOnlyList<string> DocsProjects = new[] { "ArgsReading" };
-	public const string DocsRepoUri = "https://github.com/ejball/ArgsReading.git";
-	public const string DocsSourceUri = "https://github.com/ejball/ArgsReading/tree/master/src";
-
-	public const string BuildBotUserName = "ejball";
-	public readonly string BuildBotPassword = Environment.GetEnvironmentVariable("BUILD_BOT_PASSWORD");
-	public const string BuildBotDisplayName = "ejball";
-	public const string BuildBotEmail = "ejball@gmail.com";
-
-	public void CreateTargets()
+	public static int Main(string[] args) => BullseyeBuildRunner.Execute(args, app =>
 	{
+		var configurationOption = app.AddOption("-c|--configuration <name>", "The configuration to build", "Release");
+		var nugetApiKeyOption = app.AddOption("--nuget-api-key <name>", "NuGet API key for publishing");
+		var versionSuffixOption = app.AddOption("--version-suffix <suffix>", "Generates a prerelease package");
+		var triggerOption = app.AddOption("--trigger <name>", "The branch or tag that triggered the build");
+
+		var solutionName = "ArgsReading.sln";
+		var nugetSource = "https://api.nuget.org/v3/index.json";
+
+		var docsProjects = new[] { "ArgsReading" };
+		var docsRepoUri = "https://github.com/ejball/ArgsReading.git";
+		var docsSourceUri = "https://github.com/ejball/ArgsReading/tree/master/src";
+
+		var buildBotUserName = "ejball";
+		var buildBotPassword = Environment.GetEnvironmentVariable("BUILD_BOT_PASSWORD");
+		var buildBotDisplayName = "ejball";
+		var buildBotEmail = "ejball@gmail.com";
+
+		SetDotNetToolsDirectory("tools/bin");
+
 		Target("clean",
 			() =>
 			{
@@ -51,33 +39,34 @@ internal sealed class Build
 			});
 
 		Target("restore",
-			() => RunDotNet("restore", SolutionName));
+			() => RunDotNet("restore", solutionName));
 
 		Target("build",
 			DependsOn("restore"),
-			() => RunDotNet("build", SolutionName, "-c", Configuration, "--no-restore", "--verbosity", "normal"));
+			() => RunDotNet("build", solutionName, "-c", configurationOption.Value, "--no-restore", "--verbosity", "normal"));
 
 		Target("rebuild",
 			DependsOn("clean", "build"));
 
 		Target("test",
 			DependsOn("build"),
-			() => RunDotNet("test", SolutionName, "-c", Configuration, "--no-build"));
+			() => RunDotNet("test", solutionName, "-c", configurationOption.Value, "--no-build"));
 
 		Target("package",
 			DependsOn("rebuild", "test"),
 			() =>
 			{
-				string versionSuffix = VersionSuffix;
-				if (versionSuffix == null && Trigger != null)
+				string versionSuffix = versionSuffixOption.Value;
+				string trigger = triggerOption.Value;
+				if (versionSuffix == null && trigger != null)
 				{
-					var group = Regex.Match(Trigger, @"^v[^\.]+\.[^\.]+\.[^\.]+-(.+)").Groups[1];
-					if (group.Success)
-						versionSuffix = group.ToString();
+					var group = Regex.Match(trigger, @"^v[^\.]+\.[^\.]+\.[^\.]+-(.+)").Groups[1];
+					if (@group.Success)
+						versionSuffix = @group.ToString();
 				}
 
-				RunDotNet("pack", SolutionName,
-					"-c", Configuration,
+				RunDotNet("pack", solutionName,
+					"-c", configurationOption.Value,
 					"--no-build",
 					"--output", Path.GetFullPath("release"),
 					versionSuffix != null ? "--version-suffix" : null, versionSuffix);
@@ -98,12 +87,12 @@ internal sealed class Build
 			() =>
 			{
 				if (!Directory.Exists(docsBranchName))
-					Repository.Clone(DocsRepoUri, docsBranchName, new CloneOptions { BranchName = docsBranchName });
+					Repository.Clone(docsRepoUri, docsBranchName, new CloneOptions { BranchName = docsBranchName });
 
-				foreach (string docsProject in DocsProjects)
+				foreach (string docsProject in docsProjects)
 				{
-					XmlDocMarkdownGenerator.Generate($"src/{docsProject}/bin/{Configuration}/netstandard2.0/{docsProject}.dll", $"{docsBranchName}/",
-						new XmlDocMarkdownSettings { SourceCodePath = $"{DocsSourceUri}/{docsProject}", NewLine = "\n", ShouldClean = true });
+					XmlDocMarkdownGenerator.Generate($"src/{docsProject}/bin/{configurationOption.Value}/netstandard2.0/{docsProject}.dll", $"{docsBranchName}/",
+						new XmlDocMarkdownSettings { SourceCodePath = $"{docsSourceUri}/{docsProject}", NewLine = "\n", ShouldClean = true });
 				}
 			});
 
@@ -123,12 +112,14 @@ internal sealed class Build
 						throw new InvalidOperationException($"Mismatched package versions '{version}' and '{nupkgVersion}'.");
 				}
 
-				if (version != null && NuGetApiKey != null && (Trigger == null || Regex.IsMatch(Trigger, "^v[0-9]")))
+				var nugetApiKey = nugetApiKeyOption.Value;
+				var trigger = triggerOption.Value;
+				if (version != null && nugetApiKey != null && (trigger == null || Regex.IsMatch(trigger, "^v[0-9]")))
 				{
-					if (Trigger != null && Trigger != $"v{version}")
-						throw new InvalidOperationException($"Trigger '{Trigger}' doesn't match package version '{version}'.");
+					if (trigger != null && trigger != $"v{version}")
+						throw new InvalidOperationException($"Trigger '{trigger}' doesn't match package version '{version}'.");
 					foreach (var nupkgPath in nupkgPaths)
-						RunDotNet("nuget", "push", nupkgPath, "--source", NuGetSource, "--api-key", NuGetApiKey);
+						RunDotNet("nuget", "push", nupkgPath, "--source", nugetSource, "--api-key", nugetApiKey);
 
 					if (Environment.GetEnvironmentVariable("APPVEYOR_REPO_BRANCH") == "master" && !version.Contains("-"))
 					{
@@ -138,9 +129,9 @@ internal sealed class Build
 							{
 								Console.WriteLine("Publishing documentation changes.");
 								Commands.Stage(repository, "*");
-								var author = new Signature(BuildBotDisplayName, BuildBotEmail, DateTimeOffset.Now);
+								var author = new Signature(buildBotDisplayName, buildBotEmail, DateTimeOffset.Now);
 								repository.Commit(message: "Automatic documentation update.", author, author, new CommitOptions());
-								var credentials = new UsernamePasswordCredentials { Username = BuildBotUserName, Password = BuildBotPassword };
+								var credentials = new UsernamePasswordCredentials { Username = buildBotUserName, Password = buildBotPassword };
 								repository.Network.Push(repository.Branches, new PushOptions { CredentialsProvider = (_, __, ___) => credentials });
 							}
 							else
@@ -162,39 +153,5 @@ internal sealed class Build
 
 		Target("default",
 			DependsOn("test"));
-	}
-
-	private static async Task Main(string[] args) => await CommandLineApplication.ExecuteAsync<Build>(args);
-
-	private async Task OnExecuteAsync(CommandLineApplication app)
-	{
-		string directory = GetSolutionDirectory();
-		Directory.SetCurrentDirectory(directory);
-		if (!File.Exists(SolutionName))
-			throw new InvalidOperationException($"Missing solution file {SolutionName} at {directory}.");
-
-		CreateTargets();
-
-		await RunTargetsAndExitAsync(Targets);
-	}
-
-	private static string GetScriptDirectory([CallerFilePath] string filePath = null) => Path.GetDirectoryName(filePath);
-
-	private static string GetSolutionDirectory() => Path.GetFullPath(Path.Combine(GetScriptDirectory(), "..", ".."));
-
-	private static void RunApp(string path, params string[] args) => Command.Run(path, ArgumentEscaper.EscapeAndConcatenate(args.Where(x => x != null)));
-
-	private static void RunDotNet(params string[] args) => RunApp(DotNetExe.FullPath, args);
-
-	private static void RunDotNetTool(string name, params string[] args)
-	{
-		string toolsPath = Path.Combine("tools", "bin");
-		if (!File.Exists(Path.Combine(toolsPath, $"{name}.exe")))
-			RunDotNet("tool", "install", name, "--tool-path", toolsPath);
-		RunApp(Path.Combine(toolsPath, name), args);
-	}
-
-	private static IReadOnlyList<string> FindDirectories(params string[] globs) => globs.SelectMany(glob => Glob.Directories(".", glob)).ToList();
-
-	private static IReadOnlyList<string> FindFiles(params string[] globs) => globs.SelectMany(glob => Glob.Files(".", glob)).ToList();
+	});
 }
