@@ -9,14 +9,11 @@ Prefix the description of the change with `[major]`, `[minor]` or `[patch]` in a
 
 ## Released
 
-### 2.1.0
-
-* Add `ArgsReader.ReadArguments`.
-
 ### 2.0.0
 
 * Drop .NET Standard 1.1 (per [open-source library guidance](https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/cross-platform-targeting)).
 * Strong name the assembly (per [open-source library guidance](https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/strong-naming)).
+* Add `ArgsReader.ReadArguments`.
 
 ### 1.2.0
 
