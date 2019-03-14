@@ -9,7 +9,7 @@ environment:
     secure: U2EQbBdxNIC2FL8YeOP3bVixlZ4xLBdN71Szraw+ATqAhYZwEd6JCjCJZLJPu9kN
   APPVEYOR_YML_DISABLE_PS_LINUX: true
 build_script:
-- ps: .\build.cmd publish --trigger """$env:APPVEYOR_REPO_TAG_NAME""" --nugetApiKey """$env:NUGETAPIKEY"""
+- ps: .\build.cmd publish --trigger """$env:APPVEYOR_REPO_TAG_NAME""" --nuget-api-key """$env:NUGETAPIKEY"""
 - sh: ./build.sh package-test
 test: off
 artifacts:
