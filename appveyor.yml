@@ -8,7 +8,7 @@ environment:
   BUILD_BOT_PASSWORD:
     secure: U2EQbBdxNIC2FL8YeOP3bVixlZ4xLBdN71Szraw+ATqAhYZwEd6JCjCJZLJPu9kN
 build_script:
-- cmd: .\build.cmd publish --trigger "$env:APPVEYOR_REPO_TAG_NAME" --nuget-api-key "$env:NUGETAPIKEY"
+- cmd: .\build.cmd publish --trigger "%APPVEYOR_REPO_TAG_NAME%" --nuget-api-key "%NUGETAPIKEY%"
 - sh: ./build.sh package-test
 test: off
 artifacts:
