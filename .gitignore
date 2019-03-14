@@ -2,6 +2,7 @@
 bin/
 obj/
 release/
+gh-pages/
 
 # ignore user-specific files
 .vs/

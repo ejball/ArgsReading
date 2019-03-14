@@ -91,8 +91,24 @@ internal sealed class Build
 					RunDotNetTool("sourcelink", "test", packagePath);
 			});
 
+		const string docsBranchName = "gh-pages";
+
+		Target("docs",
+			DependsOn("build"),
+			() =>
+			{
+				if (!Directory.Exists(docsBranchName))
+					Repository.Clone(DocsRepoUri, docsBranchName, new CloneOptions { BranchName = docsBranchName });
+
+				foreach (string docsProject in DocsProjects)
+				{
+					XmlDocMarkdownGenerator.Generate($"src/{docsProject}/bin/{Configuration}/netstandard2.0/{docsProject}.dll", $"{docsBranchName}/",
+						new XmlDocMarkdownSettings { SourceCodePath = $"{DocsSourceUri}/{docsProject}", NewLine = "\n", ShouldClean = true });
+				}
+			});
+
 		Target("publish",
-			DependsOn("package-test"),
+			DependsOn("package-test", "docs"),
 			() =>
 			{
 				var nupkgPaths = FindFiles("release/*.nupkg");
@@ -107,59 +123,40 @@ internal sealed class Build
 						throw new InvalidOperationException($"Mismatched package versions '{version}' and '{nupkgVersion}'.");
 				}
 
-				if (NuGetApiKey != null && (Trigger == null || Regex.IsMatch(Trigger, "^v[0-9]")))
+				if (version != null && NuGetApiKey != null && (Trigger == null || Regex.IsMatch(Trigger, "^v[0-9]")))
 				{
 					if (Trigger != null && Trigger != $"v{version}")
 						throw new InvalidOperationException($"Trigger '{Trigger}' doesn't match package version '{version}'.");
 					foreach (var nupkgPath in nupkgPaths)
 						RunDotNet("nuget", "push", nupkgPath, "--source", NuGetSource, "--api-key", NuGetApiKey);
+
+					if (Environment.GetEnvironmentVariable("APPVEYOR_REPO_BRANCH") == "master" && !version.Contains("-"))
+					{
+						using (var repository = new Repository(docsBranchName))
+						{
+							if (repository.RetrieveStatus().IsDirty)
+							{
+								Console.WriteLine("Publishing documentation changes.");
+								Commands.Stage(repository, "*");
+								var author = new Signature(BuildBotDisplayName, BuildBotEmail, DateTimeOffset.Now);
+								repository.Commit(message: "Automatic documentation update.", author, author, new CommitOptions());
+								var credentials = new UsernamePasswordCredentials { Username = BuildBotUserName, Password = BuildBotPassword };
+								repository.Network.Push(repository.Branches, new PushOptions { CredentialsProvider = (_, __, ___) => credentials });
+							}
+							else
+							{
+								Console.WriteLine("No documentation changes detected.");
+							}
+						}
+					}
+					else
+					{
+						Console.WriteLine("Documentation not published for this build.");
+					}
 				}
 				else
 				{
 					Console.WriteLine($"To publish this package, push this git tag: v{version}");
-				}
-			});
-
-		Target("update-docs",
-			DependsOn("build"),
-			() =>
-			{
-				if (Environment.GetEnvironmentVariable("APPVEYOR_REPO_BRANCH") != "master")
-				{
-					Console.WriteLine("Documentation is updated when Appveyor builds the master branch.");
-				}
-				else if (BuildBotPassword == null)
-				{
-					Console.WriteLine("Documentation update requires BUILD_BOT_PASSWORD.");
-				}
-				else
-				{
-					const string branchName = "gh-pages";
-					if (!Directory.Exists(branchName))
-						Repository.Clone(DocsRepoUri, branchName, new CloneOptions { BranchName = branchName });
-
-					foreach (string docsProject in DocsProjects)
-					{
-						XmlDocMarkdownGenerator.Generate($"src/{docsProject}/bin/{Configuration}/netstandard2.0/{docsProject}.dll", $"{branchName}/",
-							new XmlDocMarkdownSettings { SourceCodePath = $"{DocsSourceUri}/{docsProject}", NewLine = "\n", ShouldClean = true });
-					}
-
-					using (var repository = new Repository(branchName))
-					{
-						if (repository.RetrieveStatus().IsDirty)
-						{
-							Console.WriteLine("Deploying documentation changes.");
-							Commands.Stage(repository, "*");
-							var author = new Signature(BuildBotDisplayName, BuildBotEmail, DateTimeOffset.Now);
-							repository.Commit(message: "Automatic documentation update.", author, author, new CommitOptions());
-							var credentials = new UsernamePasswordCredentials { Username = BuildBotUserName, Password = BuildBotPassword };
-							repository.Network.Push(repository.Branches, new PushOptions { CredentialsProvider = (_, __, ___) => credentials });
-						}
-						else
-						{
-							Console.WriteLine("No documentation changes detected.");
-						}
-					}
 				}
 			});
 
