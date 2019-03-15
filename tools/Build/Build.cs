@@ -1,12 +1,11 @@
 using System;
 using BuildTools;
-using static Bullseye.Targets;
 
 internal static class Build
 {
-	public static int Main(string[] args) => BullseyeBuildRunner.Execute(args, app =>
+	public static int Main(string[] args) => BullseyeBuildRunner.Execute(args, build =>
 	{
-		DotNetBuild.CreateTargets(app,
+		build.AddDotNetTargets(
 			new DotNetBuildSettings
 			{
 				SolutionName = "ArgsReading.sln",
@@ -25,6 +24,6 @@ internal static class Build
 				},
 			});
 
-		Target("default", DependsOn("test"));
+		build.AddTarget("default : test");
 	});
 }

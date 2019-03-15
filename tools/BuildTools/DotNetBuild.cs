@@ -6,18 +6,17 @@ using LibGit2Sharp;
 using XmlDocMarkdown.Core;
 using static BuildTools.BuildUtility;
 using static BuildTools.DotNetRunner;
-using static Bullseye.Targets;
 
 namespace BuildTools
 {
 	public static class DotNetBuild
 	{
-		public static void CreateTargets(BuildApp app, DotNetBuildSettings settings)
+		public static void AddDotNetTargets(this BuildApp build, DotNetBuildSettings settings)
 		{
-			var configurationOption = app.AddOption("-c|--configuration <name>", "The configuration to build", "Release");
-			var nugetApiKeyOption = app.AddOption("--nuget-api-key <name>", "NuGet API key for publishing");
-			var versionSuffixOption = app.AddOption("--version-suffix <suffix>", "Generates a prerelease package");
-			var triggerOption = app.AddOption("--trigger <name>", "The branch or tag that triggered the build");
+			var configurationOption = build.AddOption("-c|--configuration <name>", "The configuration to build", "Release");
+			var nugetApiKeyOption = build.AddOption("--nuget-api-key <name>", "NuGet API key for publishing");
+			var versionSuffixOption = build.AddOption("--version-suffix <suffix>", "Generates a prerelease package");
+			var triggerOption = build.AddOption("--trigger <name>", "The branch or tag that triggered the build");
 
 			var solutionName = settings.SolutionName ?? throw new ArgumentException("Missing SolutionName.", nameof(settings));
 			var nugetSource = settings.NuGetSource ?? "https://api.nuget.org/v3/index.json";
@@ -33,29 +32,33 @@ namespace BuildTools
 
 			SetDotNetToolsDirectory(settings.DotNetToolsDirectory ?? "tools/bin");
 
-			Target("clean",
+			const string docsBranchName = "gh-pages";
+
+			build.AddTarget(
+				"clean",
 				() =>
 				{
 					foreach (var directory in FindDirectories("{src,tests}/**/{bin,obj}", "release"))
 						Directory.Delete(directory, recursive: true);
 				});
 
-			Target("restore",
+			build.AddTarget(
+				"restore",
 				() => RunDotNet("restore", solutionName));
 
-			Target("build",
-				DependsOn("restore"),
+			build.AddTarget(
+				"build : restore",
 				() => RunDotNet("build", solutionName, "-c", configurationOption.Value, "--no-restore", "--verbosity", "normal"));
 
-			Target("rebuild",
-				DependsOn("clean", "build"));
+			build.AddTarget(
+				"rebuild : clean build");
 
-			Target("test",
-				DependsOn("build"),
+			build.AddTarget(
+				"test : build",
 				() => RunDotNet("test", solutionName, "-c", configurationOption.Value, "--no-build"));
 
-			Target("package",
-				DependsOn("rebuild", "test"),
+			build.AddTarget(
+				"package : rebuild test",
 				() =>
 				{
 					string versionSuffix = versionSuffixOption.Value;
@@ -74,18 +77,16 @@ namespace BuildTools
 						versionSuffix != null ? "--version-suffix" : null, versionSuffix);
 				});
 
-			Target("package-test",
-				DependsOn("package"),
+			build.AddTarget(
+				"package-test : package",
 				() =>
 				{
 					foreach (var packagePath in FindFiles("release/*.nupkg"))
 						RunDotNetTool("sourcelink", "test", packagePath);
 				});
 
-			const string docsBranchName = "gh-pages";
-
-			Target("docs",
-				DependsOn("build"),
+			build.AddTarget(
+				"docs : build",
 				() =>
 				{
 					if (docsProjects != null && docsProjects.Count != 0 && docsRepoUrl != null && docsSourceUrl != null)
@@ -102,8 +103,8 @@ namespace BuildTools
 					}
 				});
 
-			Target("publish",
-				DependsOn("package-test", "docs"),
+			build.AddTarget(
+				"publish : package-test docs",
 				() =>
 				{
 					var nupkgPaths = FindFiles("release/*.nupkg");
