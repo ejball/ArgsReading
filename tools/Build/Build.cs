@@ -3,7 +3,7 @@ using BuildTools;
 
 internal static class Build
 {
-	public static int Main(string[] args) => BullseyeBuildRunner.Execute(args, build =>
+	public static int Main(string[] args) => BuildRunner.Execute(args, build =>
 	{
 		build.AddDotNetTargets(
 			new DotNetBuildSettings
@@ -23,7 +23,5 @@ internal static class Build
 					Email = "ejball@gmail.com",
 				},
 			});
-
-		build.AddTarget("default : test");
 	});
 }

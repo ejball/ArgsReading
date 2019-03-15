@@ -1,6 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using McMaster.Extensions.CommandLineUtils;
 
@@ -8,7 +8,7 @@ namespace BuildTools
 {
 	public static class BuildRunner
 	{
-		public static int Execute(string[] args, Action<BuildApp> initialize, Action<IReadOnlyList<string>> run, string scriptPath = null, [CallerFilePath] string callerFilePath = null)
+		public static int Execute(string[] args, Action<BuildApp> initialize, string scriptPath = null, [CallerFilePath] string callerFilePath = null)
 		{
 			string scriptDirectory = Path.GetDirectoryName(scriptPath ?? callerFilePath);
 			string buildDirectory = Path.GetFullPath(Path.Combine(scriptDirectory ?? ".", "..", ".."));
@@ -24,10 +24,11 @@ namespace BuildTools
 
 			commandLineApp.OnExecute(() =>
 			{
-				if (helpFlag.Value)
+				var targets = targetsArgument.Values;
+				if (helpFlag.Value || targets.Count == 0 && buildApp.Targets.All(x => x.Name != "default"))
 					commandLineApp.ShowHelp();
 				else
-					run(targetsArgument.Values);
+					buildApp.RunTargets(targets);
 			});
 
 			return commandLineApp.Execute(args);
