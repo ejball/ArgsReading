@@ -36,6 +36,7 @@ namespace BuildTools
 
 			build.AddTarget(
 				"clean",
+				"Deletes all build output",
 				() =>
 				{
 					foreach (var directory in FindDirectories("{src,tests}/**/{bin,obj}", "release"))
@@ -44,21 +45,26 @@ namespace BuildTools
 
 			build.AddTarget(
 				"restore",
+				"Restores NuGet packages",
 				() => RunDotNet("restore", solutionName));
 
 			build.AddTarget(
 				"build : restore",
+				"Builds the solution",
 				() => RunDotNet("build", solutionName, "-c", configurationOption.Value, "--no-restore", "--verbosity", "normal"));
 
 			build.AddTarget(
-				"rebuild : clean build");
+				"rebuild : clean build",
+				"Cleans and builds the solution");
 
 			build.AddTarget(
 				"test : build",
+				"Runs the unit tests",
 				() => RunDotNet("test", solutionName, "-c", configurationOption.Value, "--no-build"));
 
 			build.AddTarget(
 				"package : rebuild test",
+				"Builds the NuGet packages",
 				() =>
 				{
 					string versionSuffix = versionSuffixOption.Value;
@@ -79,6 +85,7 @@ namespace BuildTools
 
 			build.AddTarget(
 				"package-test : package",
+				"Tests the NuGet packages",
 				() =>
 				{
 					foreach (var packagePath in FindFiles("release/*.nupkg"))
@@ -87,6 +94,7 @@ namespace BuildTools
 
 			build.AddTarget(
 				"docs : build",
+				"Generates reference documentation",
 				() =>
 				{
 					if (docsProjects != null && docsProjects.Count != 0 && docsRepoUrl != null && docsSourceUrl != null)
@@ -105,6 +113,7 @@ namespace BuildTools
 
 			build.AddTarget(
 				"publish : package-test docs",
+				"Publishes the NuGet packages",
 				() =>
 				{
 					var nupkgPaths = FindFiles("release/*.nupkg");

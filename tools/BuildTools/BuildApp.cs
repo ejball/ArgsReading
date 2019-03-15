@@ -15,7 +15,10 @@ namespace BuildTools
 		public BuildOption AddOption(string template, string description, string defaultValue = null) =>
 			new BuildOption(m_app.Option(template, description, CommandOptionType.SingleValue), defaultValue);
 
-		public BuildTarget AddTarget(string template, Action action = null)
+		public BuildTarget AddTarget(string template, Action action = null) =>
+			AddTarget(template, null, action);
+
+		public BuildTarget AddTarget(string template, string description, Action action = null)
 		{
 			string[] nameEtc = template.Split(new[] { ':' }, 2);
 			string name = nameEtc[0].Trim();
@@ -23,7 +26,7 @@ namespace BuildTools
 
 			Bullseye.Targets.Target(name, dependencies, action);
 
-			var target = new BuildTarget(name, dependencies);
+			var target = new BuildTarget(name, description, dependencies);
 			m_targets.Add(target);
 			return target;
 		}

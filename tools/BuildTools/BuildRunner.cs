@@ -42,9 +42,13 @@ namespace BuildTools
 
 		private static void ShowTargets(IReadOnlyList<BuildTarget> targets)
 		{
-			Console.WriteLine("Targets:");
-			foreach (var target in targets)
-				Console.WriteLine("  {0}", target.Name);
+			if (targets.Count != 0)
+			{
+				Console.WriteLine("Targets:");
+				int maxTargetLength = targets.Select(x => x.Name.Length).Max();
+				foreach (var target in targets)
+					Console.WriteLine("  {0}  {1}", target.Name.PadRight(maxTargetLength), target.Description);
+			}
 		}
 	}
 }
