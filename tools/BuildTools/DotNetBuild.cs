@@ -34,38 +34,36 @@ namespace BuildTools
 
 			const string docsBranchName = "gh-pages";
 
-			build.AddTarget(
-				"clean",
-				"Deletes all build output",
-				() =>
+			build.Target("clean")
+				.Describe("Deletes all build output")
+				.Does(() =>
 				{
 					foreach (var directory in FindDirectories("{src,tests}/**/{bin,obj}", "release"))
 						Directory.Delete(directory, recursive: true);
 				});
 
-			build.AddTarget(
-				"restore",
-				"Restores NuGet packages",
-				() => RunDotNet("restore", solutionName));
+			build.Target("restore")
+				.Describe("Restores NuGet packages")
+				.Does(() => RunDotNet("restore", solutionName));
 
-			build.AddTarget(
-				"build : restore",
-				"Builds the solution",
-				() => RunDotNet("build", solutionName, "-c", configurationOption.Value, "--no-restore", "--verbosity", "normal"));
+			build.Target("build")
+				.DependsOn("restore")
+				.Describe("Builds the solution")
+				.Does(() => RunDotNet("build", solutionName, "-c", configurationOption.Value, "--no-restore", "--verbosity", "normal"));
 
-			build.AddTarget(
-				"rebuild : clean build",
-				"Cleans and builds the solution");
+			build.Target("rebuild")
+				.DependsOn("clean", "build")
+				.Describe("Cleans and builds the solution");
 
-			build.AddTarget(
-				"test : build",
-				"Runs the unit tests",
-				() => RunDotNet("test", solutionName, "-c", configurationOption.Value, "--no-build"));
+			build.Target("test")
+				.DependsOn("build")
+				.Describe("Runs the unit tests")
+				.Does(() => RunDotNet("test", solutionName, "-c", configurationOption.Value, "--no-build"));
 
-			build.AddTarget(
-				"package : rebuild test",
-				"Builds the NuGet packages",
-				() =>
+			build.Target("package")
+				.DependsOn("rebuild", "test")
+				.Describe("Builds the NuGet packages")
+				.Does(() =>
 				{
 					string versionSuffix = versionSuffixOption.Value;
 					string trigger = triggerOption.Value;
@@ -83,19 +81,19 @@ namespace BuildTools
 						versionSuffix != null ? "--version-suffix" : null, versionSuffix);
 				});
 
-			build.AddTarget(
-				"package-test : package",
-				"Tests the NuGet packages",
-				() =>
+			build.Target("package-test")
+				.DependsOn("package")
+				.Describe("Tests the NuGet packages")
+				.Does(() =>
 				{
 					foreach (var packagePath in FindFiles("release/*.nupkg"))
 						RunDotNetTool("sourcelink", "test", packagePath);
 				});
 
-			build.AddTarget(
-				"docs : build",
-				"Generates reference documentation",
-				() =>
+			build.Target("docs")
+				.DependsOn("build")
+				.Describe("Generates reference documentation")
+				.Does(() =>
 				{
 					if (docsProjects != null && docsProjects.Count != 0 && docsRepoUrl != null && docsSourceUrl != null)
 					{
@@ -111,10 +109,10 @@ namespace BuildTools
 					}
 				});
 
-			build.AddTarget(
-				"publish : package-test docs",
-				"Publishes the NuGet packages",
-				() =>
+			build.Target("publish")
+				.DependsOn("package-test", "docs")
+				.Describe("Publishes the NuGet packages")
+				.Does(() =>
 				{
 					var nupkgPaths = FindFiles("release/*.nupkg");
 

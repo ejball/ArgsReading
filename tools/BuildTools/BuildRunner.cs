@@ -23,6 +23,9 @@ namespace BuildTools
 			var helpFlag = buildApp.AddFlag("-h|-?|--help", "Show build help");
 			var targetsArgument = commandLineApp.Argument("targets", "The targets to build", multipleValues: true);
 
+			foreach (var target in buildApp.Targets)
+				Bullseye.Targets.Target(target.Name, target.Dependencies, target.Run);
+
 			commandLineApp.OnExecute(() =>
 			{
 				var targets = targetsArgument.Values;
@@ -33,7 +36,7 @@ namespace BuildTools
 				}
 				else
 				{
-					buildApp.RunTargets(targets);
+					Bullseye.Targets.RunTargetsAndExit(targets);
 				}
 			});
 

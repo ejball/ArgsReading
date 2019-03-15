@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace BuildTools
 {
 	public sealed class DotNetBuildSettings
