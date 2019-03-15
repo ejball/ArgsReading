@@ -6,8 +6,6 @@ namespace BuildTools
 	{
 		public string Value => m_option.HasValue() ? m_option.Value() : m_defaultValue;
 
-		public bool IsSpecified => m_option.HasValue();
-
 		internal BuildOption(CommandOption option, string defaultValue)
 		{
 			m_option = option;
