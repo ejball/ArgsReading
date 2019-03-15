@@ -20,14 +20,14 @@ namespace BuildTools
 			initialize(buildApp);
 
 			var helpOption = commandLineApp.Option("-h|-?|--help", "Show build help", CommandOptionType.NoValue);
-			var arguments = commandLineApp.Argument("targets", "The targets to build", multipleValues: true);
+			var targetsArgument = commandLineApp.Argument("targets", "The targets to build", multipleValues: true);
 
 			commandLineApp.OnExecute(() =>
 			{
 				if (helpOption.HasValue())
 					commandLineApp.ShowHelp();
 				else
-					run(arguments.Values);
+					run(targetsArgument.Values);
 			});
 
 			return commandLineApp.Execute(args);
