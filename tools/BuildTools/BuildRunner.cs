@@ -19,12 +19,12 @@ namespace BuildTools
 			var buildApp = new BuildApp(commandLineApp);
 			initialize(buildApp);
 
-			var helpOption = commandLineApp.Option("-h|-?|--help", "Show build help", CommandOptionType.NoValue);
+			var helpFlag = buildApp.AddFlag("-h|-?|--help", "Show build help");
 			var targetsArgument = commandLineApp.Argument("targets", "The targets to build", multipleValues: true);
 
 			commandLineApp.OnExecute(() =>
 			{
-				if (helpOption.HasValue())
+				if (helpFlag.Value)
 					commandLineApp.ShowHelp();
 				else
 					run(targetsArgument.Values);
