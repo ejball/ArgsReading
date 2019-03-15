@@ -26,7 +26,7 @@ namespace BuildTools
 			commandLineApp.OnExecute(() =>
 			{
 				var targets = targetsArgument.Values;
-				if (helpFlag.Value || targets.Count == 0 && buildApp.Targets.All(x => x.Name != "default"))
+				if (helpFlag.Value || targets.Count == 0)
 				{
 					commandLineApp.ShowHelp();
 					ShowTargets(buildApp.Targets);
