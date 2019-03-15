@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -26,12 +27,24 @@ namespace BuildTools
 			{
 				var targets = targetsArgument.Values;
 				if (helpFlag.Value || targets.Count == 0 && buildApp.Targets.All(x => x.Name != "default"))
+				{
 					commandLineApp.ShowHelp();
+					ShowTargets(buildApp.Targets);
+				}
 				else
+				{
 					buildApp.RunTargets(targets);
+				}
 			});
 
 			return commandLineApp.Execute(args);
+		}
+
+		private static void ShowTargets(IReadOnlyList<BuildTarget> targets)
+		{
+			Console.WriteLine("Targets:");
+			foreach (var target in targets)
+				Console.WriteLine("  {0}", target.Name);
 		}
 	}
 }
