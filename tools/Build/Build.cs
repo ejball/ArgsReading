@@ -1,5 +1,5 @@
 using System;
-using BuildTools;
+using Faithlife.Build;
 
 internal static class Build
 {
@@ -8,8 +8,7 @@ internal static class Build
 		build.AddDotNetTargets(
 			new DotNetBuildSettings
 			{
-				SolutionName = "ArgsReading.sln",
-				XmlDocOutputSettings = new XmlDocOutputSettings
+				XmlDocMarkdownSettings = new XmlDocMarkdownSettings
 				{
 					Projects = new[] { "ArgsReading" },
 					RepoUrl = "https://github.com/ejball/ArgsReading.git",
