@@ -8,19 +8,14 @@ internal static class Build
 		build.AddDotNetTargets(
 			new DotNetBuildSettings
 			{
-				XmlDocMarkdownSettings = new XmlDocMarkdownSettings
+				DocsSettings = new DocsSettings
 				{
 					Projects = new[] { "ArgsReading" },
 					RepoUrl = "https://github.com/ejball/ArgsReading.git",
 					SourceUrl = "https://github.com/ejball/ArgsReading/tree/master/src",
 				},
-				BuildBotSettings = new BuildBotSettings
-				{
-					UserName = "ejball",
-					Password = Environment.GetEnvironmentVariable("BUILD_BOT_PASSWORD"),
-					DisplayName = "ejball",
-					Email = "ejball@gmail.com",
-				},
+				GitLogin = new GitLoginInfo("ejball", Environment.GetEnvironmentVariable("BUILD_BOT_PASSWORD") ?? ""),
+				GitAuthor = new GitAuthorInfo("ejball", "ejball@gmail.com"),
 			});
 	});
 }
