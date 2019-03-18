@@ -11,7 +11,6 @@ internal static class Build
 				DocsSettings = new DocsSettings
 				{
 					Projects = new[] { "ArgsReading" },
-					RepoUrl = "https://github.com/ejball/ArgsReading.git",
 					SourceUrl = "https://github.com/ejball/ArgsReading/tree/master/src",
 				},
 				GitLogin = new GitLoginInfo("ejball", Environment.GetEnvironmentVariable("BUILD_BOT_PASSWORD") ?? ""),
