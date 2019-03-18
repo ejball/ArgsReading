@@ -9,6 +9,10 @@ Prefix the description of the change with `[major]`, `[minor]` or `[patch]` in a
 
 ## Released
 
+### 2.0.2
+
+* No changes. (Testing build system.)
+
 ### 2.0.1
 
 * Set NuGet package license.

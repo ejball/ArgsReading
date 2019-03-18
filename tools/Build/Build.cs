@@ -8,13 +8,9 @@ internal static class Build
 		build.AddDotNetTargets(
 			new DotNetBuildSettings
 			{
-				DocsSettings = new DocsSettings
-				{
-					Projects = new[] { "ArgsReading" },
-					SourceUrl = "https://github.com/ejball/ArgsReading/tree/master/src",
-				},
 				GitLogin = new GitLoginInfo("ejball", Environment.GetEnvironmentVariable("BUILD_BOT_PASSWORD") ?? ""),
 				GitAuthor = new GitAuthorInfo("ejball", "ejball@gmail.com"),
+				SourceCodeUrl = "https://github.com/ejball/ArgsReading/tree/master/src",
 			});
 	});
 }
