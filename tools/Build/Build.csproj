@@ -11,7 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Faithlife.Build" Version="0.2.0-rc5" />
+    <PackageReference Include="Faithlife.Build" Version="0.2.0-rc6" />
   </ItemGroup>
 
 </Project>
