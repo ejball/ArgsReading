@@ -4,7 +4,7 @@
 
 ## Installation
 
-Install **ArgsReading** from NuGet. [![NuGet](https://img.shields.io/nuget/v/ArgsReading.svg)](https://www.nuget.org/packages/ArgsReading)
+Install **ArgsReading** using NuGet. [![NuGet](https://img.shields.io/nuget/v/ArgsReading.svg)](https://www.nuget.org/packages/ArgsReading)
 
 **ArgsReading** is compatible with most .NET platforms via [.NET Standard](https://docs.microsoft.com/en-us/dotnet/standard/net-standard).
 

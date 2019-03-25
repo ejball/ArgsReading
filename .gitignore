@@ -2,14 +2,14 @@
 bin/
 obj/
 release/
-gh-pages/
 
-# ignore user-specific files
+# ignore user-specific options/cache files
 .vs/
-.vscode/
+Thumbs.db
 *.cache
+*.user
+*.userprefs
 *.ncrunchproject
 *.ncrunchsolution
-*.user
 nCrunchTemp*
 _ReSharper*

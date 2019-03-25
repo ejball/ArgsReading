@@ -8,7 +8,7 @@ internal static class Build
 		build.AddDotNetTargets(
 			new DotNetBuildSettings
 			{
-				DocumentationSettings = new DocumentationSettings
+				DocsSettings = new DotNetDocsSettings
 				{
 					GitLogin = new GitLoginInfo("ejball", Environment.GetEnvironmentVariable("BUILD_BOT_PASSWORD") ?? ""),
 					GitAuthor = new GitAuthorInfo("ejball", "ejball@gmail.com"),
