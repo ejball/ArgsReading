@@ -12,6 +12,7 @@ public sealed class ArgsReader
 | --- | --- |
 | [ArgsReader](ArgsReader/ArgsReader.md)(…) | Creates a reader for the specified command-line arguments. |
 | [LongOptionIgnoreCase](ArgsReader/LongOptionIgnoreCase.md) { get; set; } | True if long options (e.g. `--help`) should ignore case. (Default false.) |
+| [LongOptionIgnoreKebabCase](ArgsReader/LongOptionIgnoreKebabCase.md) { get; set; } | True if long options (e.g. `--dry-run`) should ignore "kebab case", i.e. allow `--dryrun`. (Default false.) |
 | [ShortOptionIgnoreCase](ArgsReader/ShortOptionIgnoreCase.md) { get; set; } | True if short options (e.g. `-h`) should ignore case. (Default false.) |
 | [ReadArgument](ArgsReader/ReadArgument.md)() | Reads the next non-option argument. |
 | [ReadArguments](ArgsReader/ReadArguments.md)() | Reads any remaining non-option arguments. |
