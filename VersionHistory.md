@@ -8,6 +8,10 @@ Prefix the description of the change with `[major]`, `[minor]`, or `[patch]` in 
 
 ## Released
 
+### 2.1.0
+
+* Support ignoring "kebab case", i.e. allow `--dryrun` to match `--dry-run`.
+
 ### 2.0.2+
 
 * No changes. (Testing build system.)

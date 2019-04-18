@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace ArgsReading
 {
@@ -34,6 +35,11 @@ namespace ArgsReading
 		public bool LongOptionIgnoreCase { get; set; }
 
 		/// <summary>
+		/// True if long options (e.g. <c>--dry-run</c>) should ignore "kebab case", i.e. allow <c>--dryrun</c>. (Default false.)
+		/// </summary>
+		public bool LongOptionIgnoreKebabCase { get; set; }
+
+		/// <summary>
 		/// Reads the specified flag, returning true if it is found.
 		/// </summary>
 		/// <param name="name">The name of the specified flag.</param>
@@ -59,7 +65,7 @@ namespace ArgsReading
 			if (names.Length > 1)
 				return names.Any(ReadFlag);
 
-			int index = m_args.FindIndex(x => string.Equals(x, RenderOption(name), GetOptionComparison(name)));
+			int index = m_args.FindIndex(x => IsOptionArgument(name, x));
 			if (index == -1)
 				return false;
 
@@ -94,7 +100,7 @@ namespace ArgsReading
 			if (names.Length > 1)
 				return names.Select(ReadOption).FirstOrDefault(x => x != null);
 
-			int index = m_args.FindIndex(x => string.Equals(x, RenderOption(name), GetOptionComparison(name)));
+			int index = m_args.FindIndex(x => IsOptionArgument(name, x));
 			if (index == -1)
 				return null;
 
@@ -162,9 +168,24 @@ namespace ArgsReading
 
 		private static string RenderOption(string name) => name.Length == 1 ? $"-{name}" : $"--{name}";
 
-		private StringComparison GetOptionComparison(string name) => name.Length == 1 ?
-			(ShortOptionIgnoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal) :
-			(LongOptionIgnoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
+		private bool IsOptionArgument(string optionName, string argument)
+		{
+			string renderedOption = RenderOption(optionName);
+			if (optionName.Length == 1)
+			{
+				return string.Equals(argument, renderedOption, ShortOptionIgnoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
+			}
+			else
+			{
+				if (LongOptionIgnoreKebabCase)
+				{
+					argument = Regex.Replace(argument, @"\b-\b", "");
+					renderedOption = Regex.Replace(renderedOption, @"\b-\b", "");
+				}
+
+				return string.Equals(argument, renderedOption, LongOptionIgnoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
+			}
+		}
 
 		readonly List<string> m_args;
 	}

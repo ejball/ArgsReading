@@ -108,6 +108,16 @@ namespace ArgsReading.Tests
 			args.ReadOption("xyzzY").Should().Be(ignoreCase ? "whatever" : null);
 		}
 
+		[Theory, InlineData(false), InlineData(true)]
+		public void ReadLongOptionWrongKebabCase(bool ignoreKebabCase)
+		{
+			var args = new ArgsReader(new[] { "--xyzzy", "whatever" }) { LongOptionIgnoreKebabCase = ignoreKebabCase };
+			args.ReadOption("xyz-zy").Should().Be(ignoreKebabCase ? "whatever" : null);
+
+			args = new ArgsReader(new[] { "--xyz-zy", "whatever" }) { LongOptionIgnoreKebabCase = ignoreKebabCase };
+			args.ReadOption("xyzzy").Should().Be(ignoreKebabCase ? "whatever" : null);
+		}
+
 		[Fact]
 		public void ReadOptionMissingValue()
 		{
