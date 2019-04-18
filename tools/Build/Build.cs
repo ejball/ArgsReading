@@ -13,6 +13,7 @@ internal static class Build
 					GitLogin = new GitLoginInfo("ejball", Environment.GetEnvironmentVariable("BUILD_BOT_PASSWORD") ?? ""),
 					GitAuthor = new GitAuthorInfo("ejball", "ejball@gmail.com"),
 					SourceCodeUrl = "https://github.com/ejball/ArgsReading/tree/master/src",
+					ToolVersion = "1.5.1",
 				},
 			});
 
