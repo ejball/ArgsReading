@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <VersionPrefix>2.1.0</VersionPrefix>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Description>A simple library for reading command-line arguments.</Description>
     <PackageTags>command-line command line console shell argument option parser ArgsReader</PackageTags>
