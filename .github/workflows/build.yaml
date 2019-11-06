@@ -17,3 +17,14 @@ jobs:
         dotnet-version: 3.0.100
     - name: Build
       run: .\build.cmd package
+  build-ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.0.100
+    - name: Build
+      run: ./build.sh package
