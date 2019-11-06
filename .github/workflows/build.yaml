@@ -17,6 +17,9 @@ jobs:
       run: |
         $GitTag = [Regex]::Match($Env:GITHUB_REF, "^refs/tags/(.*)$").Groups[1].Value
         .\build.cmd publish "--trigger=$GitTag"
+      env:
+        BUILD_BOT_PASSWORD: ${{ secrets.BUILD_BOT_PASSWORD }}
+        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
       if: runner.os == 'Windows'
     - name: Build Linux
       run: ./build.sh package
