@@ -6,23 +6,25 @@ on:
       - '*'
 
 jobs:
+
   build-windows:
     runs-on: windows-latest
     steps:
-    - name: Checkout
+    - name: Check out code
       uses: actions/checkout@v1
-    - name: Setup .NET Core
+    - name: Set up .NET Core
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.0.100
     - name: Build
       run: .\build.cmd package
+
   build-ubuntu:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
+    - name: Check out code
       uses: actions/checkout@v1
-    - name: Setup .NET Core
+    - name: Set up .NET Core
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.0.100
