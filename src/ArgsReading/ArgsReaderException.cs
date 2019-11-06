@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace ArgsReading
 {
@@ -12,7 +12,7 @@ namespace ArgsReading
 		/// </summary>
 		/// <param name="message">The exception message.</param>
 		/// <param name="innerException">The inner exception.</param>
-		public ArgsReaderException(string message, Exception innerException = null)
+		public ArgsReaderException(string message, Exception? innerException = null)
 			: base(message, innerException)
 		{
 		}

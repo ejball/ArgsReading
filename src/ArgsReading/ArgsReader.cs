@@ -65,7 +65,7 @@ namespace ArgsReading
 			if (names.Length > 1)
 				return names.Any(ReadFlag);
 
-			int index = m_args.FindIndex(x => IsOptionArgument(name, x));
+			var index = m_args.FindIndex(x => IsOptionArgument(name, x));
 			if (index == -1)
 				return false;
 
@@ -89,7 +89,7 @@ namespace ArgsReading
 		/// <exception cref="ArgumentNullException"><c>name</c> is <c>null</c>.</exception>
 		/// <exception cref="ArgumentException">One of the names is empty.</exception>
 		/// <exception cref="ArgsReaderException">The argument that must follow the option is missing.</exception>
-		public string ReadOption(string name)
+		public string? ReadOption(string name)
 		{
 			if (name == null)
 				throw new ArgumentNullException(nameof(name));
@@ -100,11 +100,11 @@ namespace ArgsReading
 			if (names.Length > 1)
 				return names.Select(ReadOption).FirstOrDefault(x => x != null);
 
-			int index = m_args.FindIndex(x => IsOptionArgument(name, x));
+			var index = m_args.FindIndex(x => IsOptionArgument(name, x));
 			if (index == -1)
 				return null;
 
-			string value = index + 1 < m_args.Count ? m_args[index + 1] : null;
+			var value = index + 1 < m_args.Count ? m_args[index + 1] : null;
 			if (value == null || IsOption(value))
 				throw new ArgsReaderException($"Missing value after '{RenderOption(name)}'.");
 
@@ -121,12 +121,12 @@ namespace ArgsReading
 		/// If options can appear before normal arguments, be sure to read all options before reading
 		/// any normal arguments.</para></remarks>
 		/// <exception cref="ArgsReaderException">The next argument is an option.</exception>
-		public string ReadArgument()
+		public string? ReadArgument()
 		{
 			if (m_args.Count == 0)
 				return null;
 
-			string value = m_args[0];
+			var value = m_args[0];
 			if (IsOption(value))
 				throw new ArgsReaderException($"Unexpected option '{value}'.");
 
@@ -147,7 +147,7 @@ namespace ArgsReading
 			var arguments = new List<string>();
 			while (true)
 			{
-				string argument = ReadArgument();
+				var argument = ReadArgument();
 				if (argument == null)
 					return arguments;
 				arguments.Add(argument);
@@ -170,7 +170,7 @@ namespace ArgsReading
 
 		private bool IsOptionArgument(string optionName, string argument)
 		{
-			string renderedOption = RenderOption(optionName);
+			var renderedOption = RenderOption(optionName);
 			if (optionName.Length == 1)
 			{
 				return string.Equals(argument, renderedOption, ShortOptionIgnoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);

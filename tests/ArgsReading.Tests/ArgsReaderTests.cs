@@ -1,6 +1,7 @@
 using System;
 using FluentAssertions;
 using Xunit;
+using static FluentAssertions.FluentActions;
 
 namespace ArgsReading.Tests
 {
@@ -11,8 +12,8 @@ namespace ArgsReading.Tests
 		{
 			Invoking(() =>
 			{
-				var unused = new ArgsReader(null);
-			}).ShouldThrow<ArgumentNullException>();
+				var unused = new ArgsReader(null!);
+			}).Should().Throw<ArgumentNullException>();
 		}
 
 		[Fact]
@@ -122,14 +123,14 @@ namespace ArgsReading.Tests
 		public void ReadOptionMissingValue()
 		{
 			var args = new ArgsReader(new[] { "-x" });
-			Invoking(() => args.ReadOption("x")).ShouldThrow<ArgsReaderException>();
+			Invoking(() => args.ReadOption("x")).Should().Throw<ArgsReaderException>();
 		}
 
 		[Fact]
 		public void ReadOptionValueIsOption()
 		{
 			var args = new ArgsReader(new[] { "-x", "-y" });
-			Invoking(() => args.ReadOption("x")).ShouldThrow<ArgsReaderException>();
+			Invoking(() => args.ReadOption("x")).Should().Throw<ArgsReaderException>();
 		}
 
 		[Fact]
@@ -150,7 +151,7 @@ namespace ArgsReading.Tests
 		public void ReadOptionAsArgument()
 		{
 			var args = new ArgsReader(new[] { "-x" });
-			Invoking(() => args.ReadArgument()).ShouldThrow<ArgsReaderException>();
+			Invoking(() => args.ReadArgument()).Should().Throw<ArgsReaderException>();
 		}
 
 		[Fact]
@@ -171,7 +172,7 @@ namespace ArgsReading.Tests
 		public void ReadOptionAsArguments()
 		{
 			var args = new ArgsReader(new[] { "-x" });
-			Invoking(() => args.ReadArguments()).ShouldThrow<ArgsReaderException>();
+			Invoking(() => args.ReadArguments()).Should().Throw<ArgsReaderException>();
 		}
 
 		[Fact]
@@ -189,9 +190,7 @@ namespace ArgsReading.Tests
 		public void VerifyIncomplete()
 		{
 			var args = new ArgsReader(new[] { "a" });
-			Invoking(args.VerifyComplete).ShouldThrow<ArgsReaderException>();
+			Invoking(args.VerifyComplete).Should().Throw<ArgsReaderException>();
 		}
-
-		private static Action Invoking(Action action) => action;
 	}
 }
