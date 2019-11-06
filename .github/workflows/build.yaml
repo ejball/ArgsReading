@@ -1,8 +1,11 @@
 name: Build
 on: [push]
 jobs:
-  build-windows:
-    runs-on: windows-latest
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
     steps:
     - name: Check out code
       uses: actions/checkout@v1
@@ -10,16 +13,9 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.0.100
-    - name: Build
+    - name: Build Windows
       run: .\build.cmd package
-  build-ubuntu:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Check out code
-      uses: actions/checkout@v1
-    - name: Set up .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 3.0.100
-    - name: Build
+      if: runner.os == 'Windows'
+    - name: Build Linux
       run: ./build.sh package
+      if: runner.os == 'Linux'
