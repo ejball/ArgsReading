@@ -14,7 +14,9 @@ jobs:
       with:
         dotnet-version: 3.0.100
     - name: Build Windows
-      run: .\build.cmd package
+      run: |
+        $GitTag = [Regex]::Match($Env:GITHUB_REF, "^refs/tags/(.*)$").Groups[1].Value
+        .\build.cmd publish "--trigger=$GitTag"
       if: runner.os == 'Windows'
     - name: Build Linux
       run: ./build.sh package
