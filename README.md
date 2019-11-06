@@ -1,6 +1,6 @@
 # ArgsReading
 
-[![AppVeyor](https://img.shields.io/appveyor/ci/ejball/argsreading/master.svg)](https://ci.appveyor.com/project/ejball/argsreading) [![NuGet](https://img.shields.io/nuget/v/ArgsReading.svg)](https://www.nuget.org/packages/ArgsReading)
+[![Build](https://github.com/ejball/ArgsReading/workflows/Build/badge.svg)](https://github.com/ejball/ArgsReading/actions?query=workflow%3ABuild) [![NuGet](https://img.shields.io/nuget/v/ArgsReading.svg)](https://www.nuget.org/packages/ArgsReading)
 
 * Documentation: https://ejball.com/ArgsReading/
 * License: [MIT](LICENSE)
