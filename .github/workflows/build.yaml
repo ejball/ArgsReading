@@ -4,6 +4,13 @@ on:
     paths-ignore:
     - '*.md'
     - 'docs/**'
+  pull_request:
+    paths-ignore:
+    - '*.md'
+    - 'docs/**'
+env:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -18,13 +25,13 @@ jobs:
       with:
         dotnet-version: 3.0.100
     - name: Build Windows
-      run: |
-        $GitTag = [Regex]::Match($Env:GITHUB_REF, "^refs/tags/(.*)$").Groups[1].Value
-        .\build.cmd publish "--trigger=$GitTag"
+      if: runner.os == 'Windows'
       env:
         BUILD_BOT_PASSWORD: ${{ secrets.BUILD_BOT_PASSWORD }}
         NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-      if: runner.os == 'Windows'
+      run: |
+        $GitTag = [Regex]::Match($Env:GITHUB_REF, "^refs/tags/(.*)$").Groups[1].Value
+        .\build.cmd publish "--trigger=$GitTag"
     - name: Build Linux
-      run: ./build.sh package
       if: runner.os == 'Linux'
+      run: ./build.sh package
