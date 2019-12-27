@@ -1,5 +1,9 @@
 # Version History
 
+### 2.2.0
+
+* Support nullable reference types.
+
 ### 2.1.0
 
 * Support ignoring "kebab case", i.e. allow `--dryrun` to match `--dry-run`.
