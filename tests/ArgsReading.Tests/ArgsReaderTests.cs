@@ -176,6 +176,19 @@ namespace ArgsReading.Tests
 		}
 
 		[Fact]
+		public void ReadDoubleDashArguments()
+		{
+			var args1 = new ArgsReader(new[] { "arg", "--", "val" });
+			args1.ReadArguments().Should().Equal("arg", "--", "val");
+
+			var args2 = new ArgsReader(new[] { "arg", "--", "--opt", "val" });
+			Invoking(() => args2.ReadArguments()).Should().Throw<ArgsReaderException>();
+
+			var args3 = new ArgsReader(new[] { "arg", "--", "--opt", "val" }) { NoOptionsAfterDoubleDash = true };
+			args3.ReadArguments().Should().Equal("arg", "--opt", "val");
+		}
+
+		[Fact]
 		public void VerifyComplete()
 		{
 			var args = new ArgsReader(new[] { "a", "-b", "-c", "d", "e" });

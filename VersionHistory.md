@@ -1,5 +1,9 @@
 # Version History
 
+### 2.3.0
+
+* Support `NoOptionsAfterDoubleDash`.
+
 ### 2.2.0
 
 * Support nullable reference types.

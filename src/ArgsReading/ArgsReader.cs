@@ -40,6 +40,11 @@ namespace ArgsReading
 		public bool LongOptionIgnoreKebabCase { get; set; }
 
 		/// <summary>
+		/// True if <c>--</c> is ignored and all following arguments are not read as options. (Default false.)
+		/// </summary>
+		public bool NoOptionsAfterDoubleDash { get; set; }
+
+		/// <summary>
 		/// Reads the specified flag, returning true if it is found.
 		/// </summary>
 		/// <param name="name">The name of the specified flag.</param>
@@ -65,7 +70,7 @@ namespace ArgsReading
 			if (names.Length > 1)
 				return names.Any(ReadFlag);
 
-			var index = m_args.FindIndex(x => IsOptionArgument(name, x));
+			var index = FindOptionArgumentIndex(name);
 			if (index == -1)
 				return false;
 
@@ -100,7 +105,7 @@ namespace ArgsReading
 			if (names.Length > 1)
 				return names.Select(ReadOption).FirstOrDefault(x => x != null);
 
-			var index = m_args.FindIndex(x => IsOptionArgument(name, x));
+			var index = FindOptionArgumentIndex(name);
 			if (index == -1)
 				return null;
 
@@ -127,7 +132,15 @@ namespace ArgsReading
 				return null;
 
 			var value = m_args[0];
-			if (IsOption(value))
+
+			if (NoOptionsAfterDoubleDash && value == "--")
+			{
+				m_args.RemoveAt(0);
+				m_noMoreOptions = true;
+				return ReadArgument();
+			}
+
+			if (!m_noMoreOptions && IsOption(value))
 				throw new ArgsReaderException($"Unexpected option '{value}'.");
 
 			m_args.RemoveAt(0);
@@ -187,6 +200,21 @@ namespace ArgsReading
 			}
 		}
 
+		private int FindOptionArgumentIndex(string optionName)
+		{
+			for (var index = 0; index < m_args.Count; index++)
+			{
+				var arg = m_args[index];
+				if (NoOptionsAfterDoubleDash && arg == "--")
+					break;
+				if (IsOptionArgument(optionName, arg))
+					return index;
+			}
+
+			return -1;
+		}
+
 		readonly List<string> m_args;
+		bool m_noMoreOptions;
 	}
 }
