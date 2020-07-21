@@ -21,7 +21,7 @@ namespace ArgsReading
 		/// <exception cref="ArgumentNullException"><c>args</c> is <c>null</c>.</exception>
 		public ArgsReader(IEnumerable<string> args)
 		{
-			m_args = args?.ToList() ?? throw new ArgumentNullException(nameof(args));
+			m_args = (args ?? throw new ArgumentNullException(nameof(args))).ToList();
 		}
 
 		/// <summary>
@@ -214,7 +214,7 @@ namespace ArgsReading
 			return -1;
 		}
 
-		readonly List<string> m_args;
-		bool m_noMoreOptions;
+		private readonly List<string> m_args;
+		private bool m_noMoreOptions;
 	}
 }

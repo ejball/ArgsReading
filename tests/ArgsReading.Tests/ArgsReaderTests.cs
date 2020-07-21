@@ -143,7 +143,7 @@ namespace ArgsReading.Tests
 		[Fact]
 		public void ReadMissingArgument()
 		{
-			var args = new ArgsReader(new string[0]);
+			var args = new ArgsReader(Array.Empty<string>());
 			args.ReadArgument().Should().BeNull();
 		}
 
@@ -164,7 +164,7 @@ namespace ArgsReading.Tests
 		[Fact]
 		public void ReadMissingArguments()
 		{
-			var args = new ArgsReader(new string[0]);
+			var args = new ArgsReader(Array.Empty<string>());
 			args.ReadArguments().Should().BeEmpty();
 		}
 
