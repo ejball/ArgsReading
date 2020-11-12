@@ -50,13 +50,12 @@ namespace ArgsReading
 		/// <param name="name">The name of the specified flag.</param>
 		/// <returns>True if the specified flag was found on the command line.</returns>
 		/// <remarks><para>If the flag is found, the method returns <c>true</c> and the flag is
-		/// removed. If <c>ReadFlag</c> is called with the same name, it will return <c>false</c>,
+		/// removed. If <c>ReadFlag</c> is called again with the same name, it will return <c>false</c>,
 		/// unless the same flag appears twice on the command line.</para>
 		/// <para>To support multiple names for the same flag, use a <c>|</c> to separate them,
 		/// e.g. use <c>help|h|?</c> to support three different names for a help flag.</para>
-		/// <para>Single-character names use a single hyphen, e.g. <c>-h</c>, and are matched
-		/// case-sensitively. Longer names use a double hyphen, e.g. <c>--help</c>, and are
-		/// matched case-insensitively.</para></remarks>
+		/// <para>Single-character names use a single hyphen, e.g. <c>-h</c>. Longer names
+		/// use a double hyphen, e.g. <c>--help</c>.</para></remarks>
 		/// <exception cref="ArgumentNullException"><c>name</c> is <c>null</c>.</exception>
 		/// <exception cref="ArgumentException">One of the names is empty.</exception>
 		public bool ReadFlag(string name)
@@ -84,13 +83,12 @@ namespace ArgsReading
 		/// <param name="name">The name of the specified option.</param>
 		/// <returns>The specified option if it was found on the command line; <c>null</c> otherwise.</returns>
 		/// <remarks><para>If the option is found, the method returns the command-line argument
-		/// after the option and both arguments are removed. If <c>ReadOption</c> is called with the
+		/// after the option and both arguments are removed. If <c>ReadOption</c> is called again with the
 		/// same name, it will return <c>null</c>, unless the same option appears twice on the command line.</para>
 		/// <para>To support multiple names for the same option, use a vertical bar (<c>|</c>) to separate them,
 		/// e.g. use <c>n|name</c> to support two different names for a module option.</para>
-		/// <para>Single-character names use a single hyphen, e.g. <c>-n example</c>, and are matched
-		/// case-sensitively. Longer names use a double hyphen, e.g. <c>--name example</c>, and are
-		/// matched case-insensitively.</para></remarks>
+		/// <para>Single-character names use a single hyphen, e.g. <c>-n example</c>. Longer names use a
+		/// double hyphen, e.g. <c>--name example</c>.</para></remarks>
 		/// <exception cref="ArgumentNullException"><c>name</c> is <c>null</c>.</exception>
 		/// <exception cref="ArgumentException">One of the names is empty.</exception>
 		/// <exception cref="ArgsReaderException">The argument that must follow the option is missing.</exception>
