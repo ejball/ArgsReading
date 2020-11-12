@@ -23,11 +23,11 @@ True if the specified flag was found on the command line.
 
 ## Remarks
 
-If the flag is found, the method returns `true` and the flag is removed. If `ReadFlag` is called with the same name, it will return `false`, unless the same flag appears twice on the command line.
+If the flag is found, the method returns `true` and the flag is removed. If `ReadFlag` is called again with the same name, it will return `false`, unless the same flag appears twice on the command line.
 
 To support multiple names for the same flag, use a `|` to separate them, e.g. use `help|h|?` to support three different names for a help flag.
 
-Single-character names use a single hyphen, e.g. `-h`, and are matched case-sensitively. Longer names use a double hyphen, e.g. `--help`, and are matched case-insensitively.
+Single-character names use a single hyphen, e.g. `-h`. Longer names use a double hyphen, e.g. `--help`.
 
 ## See Also
 
