@@ -3,7 +3,7 @@
 Reads the value of the specified option, if any.
 
 ```csharp
-public string ReadOption(string name)
+public string? ReadOption(string name)
 ```
 
 | parameter | description |

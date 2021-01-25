@@ -3,7 +3,7 @@
 Creates an exception.
 
 ```csharp
-public ArgsReaderException(string message, Exception innerException = null)
+public ArgsReaderException(string message, Exception? innerException = null)
 ```
 
 | parameter | description |
