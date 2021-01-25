@@ -3,7 +3,7 @@
 Reads the next non-option argument.
 
 ```csharp
-public string ReadArgument()
+public string? ReadArgument()
 ```
 
 ## Return Value
