@@ -1,5 +1,9 @@
 # Release Notes
 
+## 2.3.1
+
+* Add package README.
+
 ## 2.3.0
 
 * Support `NoOptionsAfterDoubleDash`.
