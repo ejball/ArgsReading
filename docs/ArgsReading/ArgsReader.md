@@ -23,7 +23,7 @@ public sealed class ArgsReader
 
 ## Remarks
 
-To use this class, construct an `ArgsReader` with the command-line arguments from `Main`, read the supported options one at a time with [`ReadFlag`](ArgsReader/ReadFlag.md) and [`ReadOption`](ArgsReader/ReadOption.md), read any normal arguments with [`ReadArgument`](ArgsReader/ReadArgument.md), and finally call [`VerifyComplete`](ArgsReader/VerifyComplete.md), which throws an [`ArgsReaderException`](ArgsReaderException.md) if any unsupported options or arguments haven't been read.
+To use this class, construct an `ArgsReader` with the command-line arguments from `Main`, read the supported options one at a time with [`ReadFlag`](./ArgsReader/ReadFlag.md) and [`ReadOption`](./ArgsReader/ReadOption.md), read any normal arguments with [`ReadArgument`](./ArgsReader/ReadArgument.md), and finally call [`VerifyComplete`](./ArgsReader/VerifyComplete.md), which throws an [`ArgsReaderException`](./ArgsReaderException.md) if any unsupported options or arguments haven't been read.
 
 ## See Also
 
