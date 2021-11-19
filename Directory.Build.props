@@ -1,7 +1,7 @@
 <Project>
 
   <PropertyGroup>
-    <VersionPrefix>2.3.1</VersionPrefix>
+    <VersionPrefix>2.3.2</VersionPrefix>
     <LangVersion>10.0</LangVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -37,7 +37,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="Exists('README.md')">
-    <None Include="README.md" Pack="true" PackagePath="\"/>
+    <None Include="README.md" Pack="true" PackagePath="" />
   </ItemGroup>
 
 </Project>

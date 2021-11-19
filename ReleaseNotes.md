@@ -1,5 +1,9 @@
 # Release Notes
 
+## 2.3.2
+
+* Add implicit using for consumers.
+
 ## 2.3.1
 
 * Add package README.
