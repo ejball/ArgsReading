@@ -11,4 +11,8 @@
     <AssemblyOriginatorKeyFile>../ArgsReading.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Using Include="System.Text.RegularExpressions" />
+  </ItemGroup>
+
 </Project>

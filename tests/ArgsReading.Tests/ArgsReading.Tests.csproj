@@ -15,4 +15,10 @@
     <ProjectReference Include="..\..\src\ArgsReading\ArgsReading.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Using Include="FluentAssertions" />
+    <Using Include="FluentAssertions.FluentActions" Static="true" />
+    <Using Include="Xunit" />
+  </ItemGroup>
+
 </Project>
