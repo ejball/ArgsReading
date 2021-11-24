@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="ArgsReading.props" Pack="true" PackagePath="build" />
+    <None Include="ArgsReading.props" Pack="true" PackagePath="build" />
   </ItemGroup>
 
 </Project>
