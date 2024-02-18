@@ -5,7 +5,8 @@
     <Description>A simple library for reading command-line arguments.</Description>
     <PackageTags>command-line command line console shell argument option parser ArgsReader</PackageTags>
     <IsPackable>true</IsPackable>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <EnablePackageValidation>true</EnablePackageValidation>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <SignAssembly>true</SignAssembly>
     <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
     <AssemblyOriginatorKeyFile>../ArgsReading.snk</AssemblyOriginatorKeyFile>
@@ -17,6 +18,10 @@
 
   <ItemGroup>
     <None Include="ArgsReading.props" Pack="true" PackagePath="build" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>

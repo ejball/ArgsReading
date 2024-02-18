@@ -1,8 +1,6 @@
-using Faithlife.Build;
-
 return BuildRunner.Execute(args, build =>
 {
-	var gitLogin = new GitLoginInfo("ejball", Environment.GetEnvironmentVariable("BUILD_BOT_PASSWORD") ?? "");
+	var gitLogin = new GitLoginInfo("faithlifebuildbot", Environment.GetEnvironmentVariable("BUILD_BOT_PASSWORD") ?? "");
 
 	build.AddDotNetTargets(
 		new DotNetBuildSettings
@@ -13,6 +11,8 @@ return BuildRunner.Execute(args, build =>
 				GitLogin = gitLogin,
 				GitAuthor = new GitAuthorInfo("ejball", "ejball@gmail.com"),
 				SourceCodeUrl = "https://github.com/ejball/ArgsReading/tree/master/src",
+				GitBranchName = "docs",
+				TargetDirectory = "",
 			},
 			PackageSettings = new DotNetPackageSettings
 			{
