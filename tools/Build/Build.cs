@@ -1,6 +1,6 @@
 return BuildRunner.Execute(args, build =>
 {
-	var gitLogin = new GitLoginInfo("faithlifebuildbot", Environment.GetEnvironmentVariable("BUILD_BOT_PASSWORD") ?? "");
+	var gitLogin = new GitLoginInfo("ejball", Environment.GetEnvironmentVariable("BUILD_BOT_PASSWORD") ?? "");
 
 	build.AddDotNetTargets(
 		new DotNetBuildSettings
