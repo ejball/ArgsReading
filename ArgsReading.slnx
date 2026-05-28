@@ -2,6 +2,5 @@
   <Project Path="src/ArgsReading/ArgsReading.csproj" />
   <Project Path="tests/ArgsReading.Tests/ArgsReading.Tests.csproj" />
   <Project Path="tools/Build/Build.csproj" />
-  <Project Path="tools/XmlDocGen/XmlDocGen.csproj" />
 </Solution>
 
