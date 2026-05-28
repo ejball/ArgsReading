@@ -1,5 +1,9 @@
 # Release Notes
 
+## 2.3.3
+
+* Update build and repository conventions.
+
 ## 2.3.2
 
 * Add implicit using for consumers.
