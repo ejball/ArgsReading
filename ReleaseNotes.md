@@ -1,5 +1,9 @@
 # Release Notes
 
+## 2.3.4
+
+* Add .NET 10 target.
+
 ## 2.3.3
 
 * Update build and repository conventions.
