@@ -1,9 +1,9 @@
 <Project>
 
   <PropertyGroup>
-    <VersionPrefix>2.3.3</VersionPrefix>
-    <PackageValidationBaselineVersion>2.3.2</PackageValidationBaselineVersion>
-    <NoWarn>$(NoWarn);1591;1998;NU1507;NU5105</NoWarn>
+    <VersionPrefix>2.3.4</VersionPrefix>
+    <PackageValidationBaselineVersion>2.3.3</PackageValidationBaselineVersion>
+    <NoWarn>$(NoWarn);1591;1998;CA1510;NU1507;NU5105</NoWarn>
     <GitHubOrganization>ejball</GitHubOrganization>
     <RepositoryName>ArgsReading</RepositoryName>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
